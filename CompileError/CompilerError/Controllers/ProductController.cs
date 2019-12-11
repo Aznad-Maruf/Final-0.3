@@ -148,6 +148,40 @@ namespace CompileError.Controllers
             return View(productModelView);
         }
 
+        public bool CodeUniqueCheck(string code)
+        {
+            if (_productManager.GetAll().Where(c => c.Code == code).ToList().Any()) return false;
+            return true;
+        }
+
+        public bool NameUniqueCheck(string name)
+        {
+            if (_productManager.GetAll().Where(c => c.Name == name).ToList().Any()) return false;
+            return true;
+        }
+
+        public bool CodeEditUniqueCheck(string code, int id)
+        {
+            var products = _productManager.GetAll().Where(c => c.Code == code).ToList();
+            if (products.Any())
+            {
+                if (products[0].Id != id) return false;
+                return true;
+            }
+            else return true;
+        }
+
+        public bool NameEditUniqueCheck(string name, int id)
+        {
+            if (_productManager.GetAll().Where(c => c.Name == name).ToList().Any()) return false;
+            return true;
+        }
+
+        public int GetId(string code)
+        {
+            return _productManager.GetAll().FirstOrDefault(c => c.Code == code).Id;
+        }
+
 
     }
 }

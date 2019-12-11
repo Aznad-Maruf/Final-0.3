@@ -1955,11 +1955,12 @@
     <Content Include="Views\Shared\PurchaseReportPartial\_PurchaseReport.cshtml" />
     <Content Include="Views\StockReport\Search.cshtml" />
     <Content Include="Views\Shared\Purchase\_InCartProducts.cshtml" />
-    <Content Include="Views\StockReport\Stock\_stockDetails.cshtml" />
     <Content Include="Views\Product\SearchProduct.cshtml" />
     <Content Include="Views\Shared\Purchase\_PurchaseDetails.cshtml" />
     <Content Include="Views\Purchase\Add.cshtml" />
     <Content Include="Views\Purchase\Search.cshtml" />
+    <Content Include="Views\StockReport\StockRepot.cshtml" />
+    <Content Include="Views\Shared\Stock\_stockDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

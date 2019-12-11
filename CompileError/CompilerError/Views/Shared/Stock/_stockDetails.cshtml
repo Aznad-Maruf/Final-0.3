@@ -14,10 +14,10 @@
         <th>Closing Balance</th>
     </tr>
     @{
-        var rep = ViewBag.stockDetails;
+        var stockReport = ViewBag.stockDetails;
     }
     @{ int i = 1;}
-    @foreach (var p in rep)
+    @foreach (var p in stockReport)
     {
         <tr>
             <td>@(++i)</td>
@@ -36,3 +36,4 @@
     }
 </table>
 
+ 

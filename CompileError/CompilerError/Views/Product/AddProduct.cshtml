@@ -38,15 +38,17 @@
                 @Html.LabelFor(c => c.Code)
                 @Html.TextBoxFor(c => c.Code, new { @class = "form-control", placeholder = "Enter Code" })
                 @Html.ValidationMessageFor(c => c.Code, "", new { @class = "text-danger" })
+                <span id="codeUniqueErrorMessage" style="color: red"></span>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(c => c.Name)
-                
+
                 @Html.TextBoxFor(c => c.Name,
                     new {@class = "form-control", placeholder="Enter Name"})
                 @Html.ValidationMessageFor(c => c.Name,"",
                     new {@class = "text-danger"})
+                <span id="nameUniqueErrorMessage" style="color: red"></span>
             </div>
             <div class="form-group">
                 @Html.LabelFor(c => c.CategoryId)
@@ -153,4 +155,59 @@
     <script src="~/Scripts/jquery-1.9.1.js"></script>
     <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    
+    <script>
+        $(document).ready(function(e) {
+            $("#Code").focusout(function() {
+                //alert("Code In");
+                var code = $("#Code").val();
+                var jsonCode = { code: code };
+
+                $.ajax({
+                    url: "/Product/CodeUniqueCheck",
+                    type: "POST",
+                    data: jsonCode,
+                    success: function (e) {
+                        
+                            //alert(e);
+                        if (e == "False") {
+                            $("#codeUniqueErrorMessage").text("Code must be unique");
+                        } else {
+                            $("#codeUniqueErrorMessage").text("");
+                        }
+                    },
+                    error: function() {
+
+                    }
+                });
+
+            });
+
+            $("#Name").focusout(function() {
+                var name = $("#Name").val();
+                var jsonCode = { name: name };
+
+                $.ajax({
+                    url: "/Product/NameUniqueCheck",
+                    type: "POST",
+                    data: jsonCode,
+                    success: function (e) {
+                        
+                        //alert(e);
+                        if (e == "False") {
+                            $("#nameUniqueErrorMessage").text("Name must be unique");
+                        } else {
+                            $("#nameUniqueErrorMessage").text("");
+                        }
+                    },
+                    error: function() {
+
+                    }
+                });
+
+            });
+
+        });
+    </script>
+
 }

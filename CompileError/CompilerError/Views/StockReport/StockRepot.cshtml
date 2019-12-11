@@ -1,0 +1,156 @@
+﻿
+@{
+    /**/
+
+
+    Layout = "~/Views/Shared/_KLayout.cshtml";
+    ViewBag.Title = "Search Stock";
+
+}
+
+@section MyCSS
+{
+    <style>
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+}
+
+<div><h2 style="color:#0074D9; font-family:'Century Gothic Light'"><strong>Stock</strong></h2></div>
+
+<div>
+
+    <table>
+
+        <tr>
+            <td>Category</td>
+            <td>@Html.DropDownList("Category", null, "--select--", null)</td>
+
+            <td>Start Date</td>
+            <td><input type="date" id="StartDate" /> </td>
+
+        </tr>
+
+
+        <tr>
+            <td>Product<input type="hidden" id="productname"></td>
+            <td>
+                <select id="Product">
+                    <option value=-1>--select--</option>
+                </select>
+            </td>
+
+            <td>End Date</td>
+            <td><input type="date" id="EndDate" /> </td>
+
+
+        </tr>
+        <tr>
+            <td>
+                <button class="btn btn-primary" type="button" id="get">
+                    <i class="animated--fade-in">Search</i>
+                </button>
+            </td>
+
+        </tr>
+
+
+    </table>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12" id="stockPartial"></div>
+</div>
+@section MyScript{
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#Category").change(function () {
+                var categoryId = $("#Category").val();
+                var jsonRequestData = { categoryId: categoryId };
+                $.ajax({
+                    url: "/Purchase/GetProductJsonResult",
+                    type: "POST",//GET/POST
+                    data: jsonRequestData,
+                    success: function (products) {
+                        //alert("success");
+                        $("#Product").empty();
+                        $("#Product").append('<Option value="' + -1 + '">' + "--select--" + '</Option>');
+                        //$("#Student").append('<Option> value="' + value.Id + '">' + "--select--" + '</Option>')
+                        $.each(products, function (key, value) {
+
+                            $("#Product").append('<Option value="' + value.Id + '">' + value.Name + '</Option>');
+
+                        });
+
+
+                    },
+                    error: function () { alert("Error"); }
+
+                });
+
+            });
+
+            /////////////////////////////////
+
+            $('#get').click(function () {
+                var proId = $("#Product").val();
+                var startdate = $("#StartDate").val();
+                var enddate = $("#EndDate").val();
+                // startdate.setDate($("#StartDate").val());
+                //enddate.setDate($("#EndDate").val());
+                var parameters = { ProductId: proId, startDate: startdate, endDate: enddate };
+
+                $.ajax({
+                    url: "/Stock/GetStockByDate",
+                    type: "GET",//GET/POST
+                    data: parameters,// JSON.stringify({ ProductId: proId, startDate: startdate, endDate: enddate }),
+                    success: function (data) {
+
+                        var rdata = data;
+
+                        $("#stockPartial").html(data);
+                    },
+                    error: function () { alert("Error"); }
+
+                });
+
+            });
+
+
+
+
+
+            ///////////////////////////
+
+
+
+
+
+
+
+        });
+
+
+    </script>
+}

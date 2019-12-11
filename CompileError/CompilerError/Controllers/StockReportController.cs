@@ -14,242 +14,174 @@ namespace CompilerError.Controllers
     {
         SaleManager _saleManager = new SaleManager();
         SalesDetailManager _salesDetailManager = new SalesDetailManager();
-        PurchasedProductManager _purchasedProductManager = new PurchasedProductManager();
+        SalesViewModel _salesViewModel = new SalesViewModel();    
+
+        PurchaseModelView _purchaseModelView = new PurchaseModelView();
         PurchaseManager _purchaseManager = new PurchaseManager();
+        PurchasedProductManager _purchasedProductManager = new PurchasedProductManager();
+
         ProductManager _productManager = new ProductManager();
         CategoryManager _categoryManager = new CategoryManager();
-        PurchaseModelView purchaseModelView = new PurchaseModelView();
 
-        [HttpGet]
-        public ActionResult Search()
+
+        public ActionResult StockRepot()
         {
-            StockViewModel stockOnSaleViewModel = new StockViewModel();
-            stockOnSaleViewModel.Sales = _saleManager.GetAll();
 
-            StockViewModel stockOnPurchaseViewModel = new StockViewModel();
-            stockOnSaleViewModel.CategorySelectListItems = _categoryManager.GetAll()
+            _purchaseModelView.CategorySelectListItems = _categoryManager
+                .GetAll()
                 .Select(c => new SelectListItem()
                 {
                     Value = c.Id.ToString(),
                     Text = c.Name
                 }).ToList();
 
-            stockOnSaleViewModel.ProductSelectListItems = _productManager.GetAll()
-                .Select(c => new SelectListItem()
-                {
-                    Value = c.Id.ToString(),
-                    Text = c.Name
-                }).ToList();
+            ViewBag.Category = _purchaseModelView.CategorySelectListItems;
 
-            return View(stockOnSaleViewModel);
+            return View();
         }
 
-        [HttpPost]
-        public ActionResult Search(string startDate, string endDate)
+        public ActionResult GetStockByDate(int ProductId, string startDate, string endDate)
         {
-            var products = _productManager.GetAll().ToList();
-            var categories = _categoryManager.GetAll().ToList();
 
-            var sales = _saleManager.GetAll().ToList();
-            var salesProducts = _salesDetailManager.GetAll().ToList();
+            var Product = _productManager.GetAll().ToList();
+            var Category = _categoryManager.GetAll().ToList();
+            var PurchaseProducts = _purchasedProductManager.GetAll().ToList();
+            var Purchase = _purchaseManager.GetAll().ToList();
 
-            var purchases = _purchaseManager.GetAll().ToList();
-            var purchaseProducts = _purchasedProductManager.GetAll().ToList();
+            var q = (from PurPro in PurchaseProducts
+                     join Pur in Purchase on PurPro.Purchase.Id equals Pur.Id
+                     join Prod in Product on PurPro.ProductId equals Prod.Id
+                     join Cat in Category on Prod.CategoryId equals Cat.Id
+                     orderby Pur.Date
+                     where (Prod.Id == ProductId && (Pur.Date.Contains(startDate) && endDate.Contains(Pur.Date)))
+                     select new Stock
+                     {
+                         Id = PurPro.Id,
+                         Code = Prod.Code,
+                         Product = Prod.Name,
+                         Category = Cat.Name,
+                         ReorderLevel = Prod.ReorderLevel,
+                         Expdate = PurPro.ExpireDate,
+                         OpeningBalance = GetOpeningBal(ProductId, Pur.Date),
+                         In = stockIn(ProductId, Pur.Date),
+                         Out = stockout(ProductId, Pur.Date),
+                         ClosingBalance = GetOpeningBal(ProductId, Pur.Date)
+                                       + (stockIn(ProductId, Pur.Date)
+                                       - stockout(ProductId, Pur.Date))
 
-            purchaseModelView.CategorySelectListItems = _categoryManager.GetAll()
-               .Select(c => new SelectListItem()
-               {
-                   Value = c.Id.ToString(),
-                   Text = c.Name
-               }).ToList();
-
-            purchaseModelView.ProductSelectListItems = _productManager.GetAll()
-                .Select(c => new SelectListItem()
-                {
-                    Value = c.Id.ToString(),
-                    Text = c.Name
-                }).ToList();
-
-            var productCategory = (from pro in products
-                                   join ca in categories on pro.CategoryId equals ca.Id
-                                   select new ProductCategory
-                                   {
-                                       ProductId = pro.Id,
-                                       ProductCode = pro.Code,
-                                       ProductName = pro.Name,
-                                       CategoryName = ca.Name,
-                                       ReorderLevel = pro.ReorderLevel
-
-                                   }).ToList();
-
-            var purchaseList = (from pu in purchaseProducts
-                                join pro in purchases on pu.ProductId equals pro.Id
-                                select new PurchasesList
-                                {
-
-                                    ProductId = pu.ProductId,
-                                    PurchaseQuantity = pu.Quantity,
-                                    PurchaseDate = pro.Date,
-                                    ExpireDate = pu.ExpireDate,
-                                    ManufactureDate = pu.ManufactureDate
-
-                                }).ToList();
-
-            var purchaseProductList = (from pu in purchaseList
-                                       join po in productCategory on pu.ProductId equals po.ProductId
-                                       select new PurchaseProductList
-                                       {
-                                           ProductId = pu.ProductId,
-                                           ProductCode = po.ProductCode,
-                                           ProductName = po.ProductName,
-                                           CategoryName = po.CategoryName,
-                                           PurchaseDate = pu.PurchaseDate,
-                                           PurchaseQuantity = pu.PurchaseQuantity,
-                                           ReorderLevel = po.ReorderLevel,
-                                           ManufactureDate = pu.ManufactureDate,
-                                           ExpireDate = pu.ExpireDate
-
-                                       }).ToList();
-
-
-            var salesList = (from sd in salesProducts
-                             join sa in sales on sd.SaleId equals sa.Id
-                             select new SalesList
-                             {
-                                 ProductId = sd.ProductId,
-                                 SalesQuantity = sd.Quantity,
-                                 SalesDate = sa.Date
-
-                             }).ToList();
-
-            var stockReport = (from ppl in purchaseProductList
-                               join sl in salesList on ppl.ProductId equals sl.ProductId
-                               select new StockReport
-                               {
-                                   ProductId = ppl.ProductId,
-                                   ProductCode = ppl.ProductCode,
-                                   ProductName = ppl.ProductName,
-                                   CategoryName = ppl.CategoryName,
-                                   ReorderLevel = ppl.ReorderLevel,
-                                   ExpireDate = ppl.ExpireDate,
-                                   ManufactureDate = ppl.ManufactureDate,
-                                   PurchaseQuantity = ppl.PurchaseQuantity,
-                                   PurchaseDate = ppl.PurchaseDate,
-                                   SalesDate = sl.SalesDate,
-                                   SalesQuantity = sl.SalesQuantity,
-
-
-                               }).ToList();
-
-            var stockReportView = (from product in stockReport
-                                   where ((product.PurchaseDate.CompareTo(startDate) >= 0 && product.SalesDate.CompareTo(startDate) >= 0
-                                         && product.PurchaseDate.CompareTo(endDate) <= 0 && product.SalesDate.CompareTo(endDate) <= 0))
-                                   group product by product.ProductCode into pGroup
-                                   select new StockReportView
-                                   {
-                                       ProductCode = pGroup.First().ProductCode,
-                                       ProductName = pGroup.First().ProductName,
-                                       CategoryName = pGroup.First().CategoryName,
-                                       ReorderLevel = pGroup.First().ReorderLevel,
-                                       ExpireDate = pGroup.First().ExpireDate,
-                                       In = pGroup.Sum(s => s.PurchaseQuantity),
-                                       Out = pGroup.Sum(s => s.SalesQuantity),
-                                       OpeningBalance = (pGroup.Sum(s => s.PurchaseQuantity) - pGroup.Sum(s => s.SalesQuantity)),
-                                       closingBalance = ((pGroup.Sum(s => s.PurchaseQuantity) - pGroup.Sum(s => s.SalesQuantity))
-                                                        + pGroup.Sum(s => s.PurchaseQuantity)) - pGroup.Sum(s => s.SalesQuantity)
-                                   }).ToList();
-
-
-            //var stockIn = (from product in stockReportView
-            //               where (product.PurchaseDate.CompareTo(startDate) >= 0 && product.PurchaseDate.CompareTo(endDate) <= 0)
-            //               select product).ToList();
-
-
-            //var stockOut = (from product in salesProducts
-            //                where (product.Sale.Date.CompareTo(startDate) >= 0 && product.Sale.Date.CompareTo(endDate) <= 0)
-            //                select product).ToList();
+                     }).ToList();
 
 
 
-            ViewBag.stockDetails = stockReportView;
+
+            ViewBag.stockDetails = q;
             return PartialView("Stock/_stockDetails");
         }
 
-        public class ProductCategory
+        public int stockIn(int ProductId, string Date)
         {
-            public int ProductId { get; set; }
-            public string ProductCode { get; set; }
-            public string ProductName { get; set; }
-            public string CategoryName { get; set; }
+            var PurchaseProducts = _purchasedProductManager.GetAll().ToList();
+            var Purchase = _purchaseManager.GetAll().ToList();
+            int quant;
+            try
+            {
+                var q = (from PurPro in PurchaseProducts
+                         join Pur in Purchase on PurPro.Purchase.Id equals Pur.Id
+                         where PurPro.ProductId == ProductId && (Pur.Date == Date)
+                         select PurPro.Quantity).Sum();
+                quant = (int)q;
+
+            }
+            catch
+            {
+                quant = 0;
+            }
+
+
+            return quant;
+        }
+
+        public int stockout(int ProductId, string Date)
+        {
+            var SaleProducts = _salesDetailManager.GetAll().ToList();
+            var Sales = _saleManager.GetAll().ToList();
+            int quant;
+            try
+            {
+                var q = (from salePro in SaleProducts
+                         join sal in Sales on salePro.Sale.Id equals sal.Id
+                         where salePro.ProductId == ProductId && (sal.Date == Date)
+                         select salePro.Quantity).Sum();
+                quant = q;
+
+            }
+            catch
+            {
+                quant = 0;
+            }
+
+            return quant;
+        }
+        public int GetOpeningBal(int ProductId, string startDate)
+        {
+            var Product = _productManager.GetAll().ToList();
+            var Category = _categoryManager.GetAll().ToList();
+            var PurchaseProducts = _purchasedProductManager.GetAll().ToList();
+            var Purchase = _purchaseManager.GetAll().ToList();
+            int quant;
+            try
+            {
+                var q = (from PurPro in PurchaseProducts
+                         join Pur in Purchase on PurPro.Purchase.Id equals Pur.Id
+                         where PurPro.ProductId == ProductId && (Pur.Date.Contains(startDate))
+                         select PurPro.Quantity).Sum();
+                quant = Convert.ToInt32(q - GetSale(ProductId, startDate));
+
+            }
+            catch
+            {
+                quant = 0;
+            }
+
+
+            return quant;
+        }
+        public int GetSale(int ProductId, string startDate)
+        {
+
+            var SaleProducts = _salesDetailManager.GetAll().ToList();
+            var Sales = _saleManager.GetAll().ToList();
+            int quant;
+            try
+            {
+                var q = (from salePro in SaleProducts
+                         join sal in Sales on salePro.Sale.Id equals sal.Id
+                         where salePro.ProductId == ProductId && (sal.Date.Contains(startDate))
+                         select salePro.Quantity).Sum();
+                quant = q;
+
+            }
+            catch
+            {
+                quant = 0;
+            }
+
+            return quant;
+        }
+
+        public class Stock
+        {
+            public int Id { get; set; }
+            public string Code { get; set; }
+            public string Product { get; set; }
+            public string Category { get; set; }
             public int ReorderLevel { get; set; }
-
-        }
-        public class PurchasesList
-        {
-            public int ProductId { get; set; }
-            public double PurchaseQuantity { get; set; }
-            public string ExpireDate { get; set; }
-            public string ManufactureDate { get; set; }
-            public string PurchaseDate { get; set; }
-
+            public string Expdate { get; set; }
+            public int OpeningBalance { get; set; }
+            public int In { get; set; }
+            public int Out { get; set; }
+            public int ClosingBalance { get; set; }
         }
 
-        public class PurchaseProductList
-        {
-            public int ProductId { get; set; }
-            public string ProductCode { get; set; }
-            public string ProductName { get; set; }
-            public string CategoryName { get; set; }
-            public int ReorderLevel { get; set; }
-            public double PurchaseQuantity { get; set; }
-            public string ExpireDate { get; set; }
-            public string ManufactureDate { get; set; }
-            public string PurchaseDate { get; set; }
-        }
-
-
-
-        public class SalesList
-        {
-
-            public int ProductId { set; get; }
-            public double SalesQuantity { set; get; }
-            public string SalesDate { get; set; }
-
-        }
-
-        public class StockReport
-        {
-            public int ProductId { get; set; }
-            public string ProductCode { get; set; }
-            public string ProductName { get; set; }
-            public string CategoryName { get; set; }
-            public int ReorderLevel { get; set; }
-            public double PurchaseQuantity { get; set; }
-            public string ExpireDate { get; set; }
-            public string ManufactureDate { get; set; }
-            public string PurchaseDate { get; set; }
-
-            public double SalesQuantity { set; get; }
-            public string SalesDate { get; set; }
-
-        }
-
-        public class StockReportView
-        {
-
-            public string ProductCode { get; set; }
-            public string ProductName { get; set; }
-            public string CategoryName { get; set; }
-            public int ReorderLevel { get; set; }
-            public string ExpireDate { get; set; }
-            public string PurchaseDate { get; set; }
-            public double In { set; get; }
-            public double Out { set; get; }
-            public double OpeningBalance { get; set; }
-            public double closingBalance { get; set; }
-            public string SalesDate { get; set; }
-
-        }
     }
 }
