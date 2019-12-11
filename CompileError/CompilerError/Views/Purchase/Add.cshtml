@@ -52,6 +52,7 @@
                                     new {@class = "form-control", placeholder = "Enter Name"})
                                 @Html.ValidationMessageFor(c => c.BillNo, "",
                                     new {@class = "text-danger"})
+                                <span id="billNoUniqueErrorMessage" style="color: red"></span>
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(c => c.SupplierId)
@@ -263,7 +264,35 @@
         <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
+
+
+                $("#BillNo").focusout(function() {
+                    //alert("Code In");
+                    var billNo = $("#BillNo").val();
+                    var jsonCode = { billNo: billNo };
+
+                    $.ajax({
+                        url: "/Purchase/BillNoUniqueCheck",
+                        type: "POST",
+                        data: jsonCode,
+                        success: function (e) {
+                        
+                            //alert(e);
+                            if (e == "False") {
+                                $("#billNoUniqueErrorMessage").text("Bill No. must be unique");
+                            } else {
+                                $("#billNoUniqueErrorMessage").text("");
+                            }
+                        },
+                        error: function() {
+
+                        }
+                    });
+
+                });
+
+
                 $('#CategoryId').change(function(e) {
                     var id = e.target.value;
                     console.log(id);

@@ -206,5 +206,11 @@ namespace CompileError.Controllers
             return View(purchaseModelView);
         }
 
+        public bool BillNoUniqueCheck(string billNo)
+        {
+            if (_purchaseManager.GetAll().Where(c => c.BillNo == billNo).ToList().Any()) return false;
+            return true;
+        }
+
     }
 }

@@ -10,7 +10,7 @@ using CompilerError.Models;
 
 using AutoMapper;
 using CompileError.Manager.Manager;
-using Rotativa;
+//using Rotativa;
 
 namespace CompilerError.Controllers
 {
@@ -80,13 +80,13 @@ namespace CompilerError.Controllers
         }
 
         //Print PDF
-        public ActionResult PrintViewToPdf()
-        {
+        //public ActionResult PrintViewToPdf()
+        //{
           //  var report = new ActionAsPdf("Show");
-            var report = new ActionAsPdf("PurchaseReportPartial/_PurchaseReport");
+            //var report = new ActionAsPdf("PurchaseReportPartial/_PurchaseReport");
             //var report = new ActionAsPdf("~/Views/Shared/PurchaseReportPartial/_PurchaseReport");
-            return report;
-        }
+            //return report;
+        //}
 
         public class PurchaseReport
         {
