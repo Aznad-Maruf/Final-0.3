@@ -12,93 +12,145 @@
         <meta name="viewport" content="width=device-width" />*@
 @section MyCSS
 {
-        <style>
-            table {
-                font-family: arial, sans-serif;
-                border-collapse: collapse;
-                width: 100%;
-            }
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-            td, th {
-                border: 1px solid #dddddd;
-                text-align: left;
-                padding: 8px;
-            }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
 
-            tr:nth-child(even) {
-                background-color: #dddddd;
-            }
-        </style>
-    }
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+}
 
 @**  </head>
     <body>*@
 
-        <h2>Add </h2>
-        <div>
-            <form method='post' style='text-align:center'>
-                <table>
-                    <tr>
-                        <td>@Html.LabelFor(c => c.Code)</td>
-                        <th>@Html.TextBoxFor(c => c.Code, Model.Code)</th>
-                        <td>@Html.ValidationMessageFor(c => c.Code)</td>
-                    </tr>
-                    <tr>
-                        <td>@Html.LabelFor(c => c.Name)</td>
-                        <th>@Html.TextBoxFor(c => c.Name, Model.Name)</th>
-                        <td>@Html.ValidationMessageFor(c => c.Name)</td>
-                    </tr>
+<h2>Add </h2>
+<div>
+    <form method='post' style='text-align:center'>
+        <table>
+            <tr>
+                <td>@Html.LabelFor(c => c.Code)</td>
+                <th>@Html.TextBoxFor(c => c.Code, Model.Code)</th>
+                <td><p id="code">@Html.ValidationMessageFor(c => c.Code)</p></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(c => c.Name)</td>
+                <th>@Html.TextBoxFor(c => c.Name, Model.Name)</th>
+                <td><p id="name">@Html.ValidationMessageFor(c => c.Name)</p></td>
+            </tr>
 
 
-                    <tr>
-                        <td></td>
-                        <td><input type='submit' name='Add' value="Save" style='color:green'></td>
-                        <td>
-                            @if (ViewBag.Message != null)
-                            {
-                                <h3>
-                                    <b>
-                                        @ViewBag.Message
-                                    </b>
-                                </h3>
-                            }
+            <tr>
+                <td></td>
+                <td><input type='submit' name='Add' value="Save" style='color:green'></td>
+                <td>
+                    @if (ViewBag.Message != null)
+                    {
+                        <h3>
+                            <b>
+                                @ViewBag.Message
+                            </b>
+                        </h3>
+                    }
 
-                        </td>
-                    </tr>
-                    <tr></tr>
-
-
-                </table>
+                </td>
+            </tr>
+            <tr></tr>
 
 
-            </form>
-        </div>
+        </table>
 
-        <div style="height:100px; width:100px"></div>
-        <div>
-            <table>
-                <tr>
-                    <th>Sl</th>
-                    <th>Code</th>
-                    <th>Name</th>
-                    <th>Action</th>
-                </tr>
-                @{ int i = 1;}
-                @foreach (var category in Model.Categories)
-                {
-                    <tr>
-                        <td>@(i++)</td>
-                        <td>@category.Code</td>
-                        <td>@category.Name</td>
-                        <td>
-                            @Html.ActionLink("Delete", "Delete", new { Id = category.Id })|
-                            @Html.ActionLink("Update", "Update", new { Id = category.Id })|
-                        </td>
-                    </tr>
-                }
 
-            </table>
-        </div>
-   @* </body>
+    </form>
+</div>
+
+<div style="height:100px; width:100px"></div>
+<div>
+    <table>
+        <tr>
+            <th>Sl</th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+        @{ int i = 1;}
+        @foreach (var category in Model.Categories)
+        {
+            <tr>
+                <td>@(i++)</td>
+                <td>@category.Code</td>
+                <td>@category.Name</td>
+                <td>
+
+                    @Html.ActionLink("Update", "Update", new { Id = category.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+@* </body>
     </html>*@
+
+@section MyScript
+{
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#Code').focusout(function () {
+                var categoryCode = $("#Code").val();
+                var JsonRequestData = { CategoryCode: categoryCode };
+                $.ajax({
+                    url: "/Category/GetCodeUnique",
+                    type: "POST",
+                    data: JsonRequestData,
+                    success: function (isHas) {
+                        if (isHas == true) {
+                            $('#Code').val("");
+                            $('#code').text("code allready exit..");
+
+                        }
+
+                    },
+                    error: function () { alert("Error!!"); }
+                });
+            });
+        });
+    
+        $(document).ready(function () {
+            $('#Name').focusout(function () {
+                var categoryName = $("#Name").val();
+                var JsonRequestData = { CategoryName: categoryName };
+                $.ajax({
+                    url: "/Category/GetNameUnique",
+                    type: "POST",
+                    data: JsonRequestData,
+                    success: function (isHas) {
+                        if (isHas == true) {
+                            $('#Name').val("");
+                            $('#name').text("name allready exit..");
+
+                        }
+
+                    },
+                    error: function () { alert("Error!!"); }
+                });
+            });
+        });
+    </script>
+}
 

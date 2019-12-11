@@ -1,6 +1,6 @@
 ﻿@model CompilerError.Models.SupplierViewModel
 
-@{ 
+@{
     Layout = "~/Views/Shared/_KLayout.cshtml";
     ViewBag.Title = "Delete Supplier";
 
@@ -39,35 +39,80 @@
     </style>
 }
 
+<div>
+    <form method="post">
+
+        <table>
+            <tr>
+                <td>@Html.LabelFor(c => c.Code)</td>
+                <td>@Html.TextBoxFor(c => c.Code, Model.Code)</td>
+                <td>@Html.ValidationMessageFor(c => c.Code)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(c => c.Name)</td>
+                <td>@Html.TextBoxFor(c => c.Name, Model.Name)</td>
+                <td>@Html.ValidationMessageFor(c => c.Name)</td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>@Html.LabelFor(c => c.Address)</td>
+                @*<td><input type="text" name="Name" value="@Model.Name"/></td>*@
+                <td>@Html.TextBoxFor(c => c.Address, Model.Address)</td>
+                <td>@Html.ValidationMessageFor(c => c.Address)</td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>@Html.LabelFor(c => c.Email)</td>
+                @*<td><input type="text" name="Name" value="@Model.Name"/></td>*@
+                <td>@Html.TextBoxFor(c => c.Email, Model.Email)</td>
+                <td>@Html.ValidationMessageFor(c => c.Email)</td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>@Html.LabelFor(c => c.Contact)</td>
+                @*<td><input type="text" name="Name" value="@Model.Name"/></td>*@
+                <td>@Html.TextBoxFor(c => c.Contact, Model.Contact)</td>
+                <td>@Html.ValidationMessageFor(c => c.Contact)</td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>@Html.LabelFor(c => c.ContactPerson)</td>
+                @*<td><input type="text" name="Name" value="@Model.Name"/></td>*@
+                <td>@Html.TextBoxFor(c => c.ContactPerson, Model.ContactPerson)</td>
+                <td>@Html.ValidationMessageFor(c => c.ContactPerson)</td>
+                <td></td>
+            </tr>
+
+
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Search" /></td>
+                <td>
+                    @if (ViewBag.Message != null)
+                    {
+                        <h3>
+                            <b>
+                                @ViewBag.Message;
+                            </b>
+                        </h3>
+                    }
+
+                </td>
+            </tr>
+
+        </table>
+    </form>
     <div>
-        <form  method="post">
+        @{
+            Html.RenderPartial("~/Views/Shared/Supplier/_SuppliersDetails.cshtml", Model);
 
-            <table>
-
-                <b>Search By: </b>
-                @Html.RadioButton("searchBy", "General", true)
-                <text> General</text>
-
-                @Html.RadioButton("searchBy", "Name")
-                <text> Name </text>
-
-                @Html.RadioButton("searchBy", "Code")
-                <text> Code </text>
-                <br />
-
-                @Html.TextBox("Search")
-                <input type="submit" value="Search" />
-
-
-            </table>
-        </form>
-        <div>
-            @{
-                Html.RenderPartial("~/Views/Shared/Supplier/_SuppliersDetails.cshtml", Model);
-
-            }
-        </div>
-       
-
+        }
     </div>
-    
+
+
+</div>
+

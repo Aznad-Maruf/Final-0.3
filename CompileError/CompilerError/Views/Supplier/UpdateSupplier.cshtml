@@ -2,9 +2,7 @@
 @model CompilerError.Models.SupplierViewModel
 
 @{
-
     Layout = "~/Views/Shared/_KLayout.cshtml";
-    ViewBag.Title = "Add Supplier";
 
 }
 
@@ -48,40 +46,58 @@
         <table>
             <tr>
                 <td>@Html.LabelFor(c => c.Code)</td>
-                @*<td><input type="text" name="RollNo" value="@Model.RollNo" /></td>*@
                 <td>@Html.TextBoxFor(c => c.Code, Model.Code)</td>
                 <td>@Html.ValidationMessageFor(c => c.Code)</td>
             </tr>
             <tr>
                 <td>@Html.LabelFor(c => c.Name)</td>
-                
-                @*<td><input type="text" name="Name" value="@Model.Name" /></td>*@
+                @*<td><input type="text" name="Name" value="@Model.Name"/></td>*@
                 <td>@Html.TextBoxFor(c => c.Name, Model.Name)</td>
                 <td>@Html.ValidationMessageFor(c => c.Name)</td>
+
             </tr>
+
             <tr>
                 <td>@Html.LabelFor(c => c.Address)</td>
+                @*<td><input type="text" name="Name" value="@Model.Name"/></td>*@
                 <td>@Html.TextBoxFor(c => c.Address, Model.Address)</td>
                 <td></td>
+
             </tr>
+
             <tr>
                 <td>@Html.LabelFor(c => c.Email)</td>
+                @*<td><input type="text" name="Name" value="@Model.Name"/></td>*@
                 <td>@Html.TextBoxFor(c => c.Email, Model.Email)</td>
                 <td>@Html.ValidationMessageFor(c => c.Email)</td>
+
             </tr>
+
             <tr>
                 <td>@Html.LabelFor(c => c.Contact)</td>
+                @*<td><input type="text" name="Name" value="@Model.Name"/></td>*@
                 <td>@Html.TextBoxFor(c => c.Contact, Model.Contact)</td>
                 <td>@Html.ValidationMessageFor(c => c.Contact)</td>
+
             </tr>
+
             <tr>
                 <td>@Html.LabelFor(c => c.ContactPerson)</td>
+                @*<td><input type="text" name="Name" value="@Model.Name"/></td>*@
                 <td>@Html.TextBoxFor(c => c.ContactPerson, Model.ContactPerson)</td>
-                <td></td>
+                <td>@Html.ValidationMessageFor(c => c.ContactPerson)</td>
+
             </tr>
+
+
             <tr>
                 <td></td>
-                <td><input type="submit" name="UpdateSupplier" value="Update" style="color:forestgreen"/></td>
+                @*<td><input type="submit" value="Update" /></td>*@
+                <td>
+                    <button class="btn btn-primary" type="submit">
+                        <i class="animated--fade-in">Update</i>
+                    </button>
+                </td>
                 <td>
                     @if (ViewBag.Message != null)
                     {
@@ -98,17 +114,19 @@
         </table>
     </form>
 
+    <div>
+        @{Html.RenderPartial("~/Views/Shared/Supplier/_SuppliersDetails.cshtml", Model);
 
-    @{Html.RenderPartial("~/Views/Shared/Supplier/_SuppliersDetails.cshtml", Model);
+        }
+    </div>
 
-    }
 
 
 </div>
 
 @section MyScript
     {
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
     <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 }

@@ -90,28 +90,56 @@ namespace CompilerError.Controllers
         public ActionResult Search(string option, string search)
         {
             CategoryViewModel categoryViewModel = new CategoryViewModel();
-            List<Category> categories = _categoryManager.GetAll();
 
-            //if (categoryViewModel.Code != null)
-            //{
-            //    categories = categories.Where(c => c.Code.Contains(categoryViewModel.Code)).ToList();
-            //}
-            //categoryViewModel.Categories = categories;
-            //return View(categoryViewModel);
+            var categories = _categoryManager.GetAll();
+
 
             if (option == "Name")
             {
-                categories = categories.Where(c => c.Name == search || search == null).ToList();
+                if(!string.IsNullOrEmpty(search))
+
+                    categories = categories
+                    .Where(c => c.Name.ToLower().Contains(search.ToLower())).ToList();
+  
             }
             else if (option == "Code")
             {
-                categories = categories.Where(c => c.Code == search || search == null).ToList();
+                if (!string.IsNullOrEmpty(search))
+
+                    categories = categories
+                    .Where(c => c.Code.ToLower().Contains(search.ToLower())).ToList();
             }
 
 
             categoryViewModel.Categories = categories;
 
             return View(categoryViewModel);
+        }
+
+        public JsonResult GetCodeUnique(string CategoryCode)
+        {
+            bool isHas = false;
+
+            var categoryCode = _categoryManager.GetAll().Where(c => c.Code == CategoryCode);
+            if (categoryCode.Count() > 0)
+            {
+                isHas = true;
+            }
+
+            return Json(isHas, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetNameUnique(string CategoryName)
+        {
+
+            bool isHas = false;
+
+            var categoryName = _categoryManager.GetAll().Where(c => c.Name == CategoryName);
+            if (categoryName.Count() > 0)
+            {
+                isHas = true;
+            }
+
+            return Json(isHas, JsonRequestBehavior.AllowGet);
         }
     }
 }

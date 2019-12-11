@@ -2,9 +2,10 @@
 @model CompilerError.Models.SupplierViewModel
 
 @{
+             
 
-    Layout = "~/Views/Shared/_KLayout.cshtml";
-    ViewBag.Title = "Add Supplier";
+                Layout = "~/Views/Shared/_KLayout.cshtml";
+               
 
 }
 
@@ -42,73 +43,145 @@
         }
     </style>
 }
+
+    <div><h2 style="color:#0074D9; font-family:'Century Gothic Light'"><strong>Supplier</strong></h2></div>
+<div>
+    <form method="post">
+        <table>
+            <tr>
+                <td>@Html.LabelFor(c => c.Code)</td>
+                <td>@Html.TextBoxFor(c => c.Code, Model.Code)</td>
+                @*<td>@Html.ValidationMessageFor(c => c.Code)</td>*@
+                <td>
+                    @Html.ValidationMessageFor(c => c.Code)
+                    @if (ViewBag.CodeExist != null)
+                    {
+                        <p>@ViewBag.CodeExist</p>
+                    }
+                </td>
+
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(c => c.Name)</td>
+                <td>@Html.TextBoxFor(c => c.Name, Model.Name)</td>
+                <td>@Html.ValidationMessageFor(c => c.Name)</td>
+
+            </tr>
+
+            <tr>
+                <td>@Html.LabelFor(c => c.Address)</td>
+                @*<td><input type="text" name="Name" value="@Model.Name"/></td>*@
+                <td>@Html.TextBoxFor(c => c.Address, Model.Address)</td>
+                <td></td>
+
+            </tr>
+
+            <tr>
+                <td>@Html.LabelFor(c => c.Email)</td>
+                @*<td><input type="text" name="Name" value="@Model.Name"/></td>*@
+                <td>@Html.TextBoxFor(c => c.Email, Model.Email)</td>
+                <td>@Html.ValidationMessageFor(c => c.Email)</td>
+
+            </tr>
+
+            <tr>
+                <td>@Html.LabelFor(c => c.Contact)</td>
+                @*<td><input type="text" name="Name" value="@Model.Name"/></td>*@
+                <td>@Html.TextBoxFor(c => c.Contact, Model.Contact)</td>
+                <td>@Html.ValidationMessageFor(c => c.Contact)</td>
+
+            </tr>
+
+            <tr>
+                <td>@Html.LabelFor(c => c.ContactPerson)</td>
+                @*<td><input type="text" name="Name" value="@Model.Name"/></td>*@
+                <td>@Html.TextBoxFor(c => c.ContactPerson, Model.ContactPerson)</td>
+                <td>@Html.ValidationMessageFor(c => c.ContactPerson)</td>
+
+            </tr>
+
+
+            <tr>
+                <td></td>
+                @*<td><input type="submit" value="Save" /></td>*@
+                <td>
+                    <button class="btn btn-primary" type="submit">
+                        <i class="animated--fade-in">Save</i>
+                    </button>
+                </td>
+                <td>
+                    @if (ViewBag.Message != null)
+                    {
+                        <h3>
+                            <b>
+                                @ViewBag.Message
+                            </b>
+                        </h3>
+                    }
+
+                </td>
+            </tr>
+
+        </table>
+    </form>
+
     <div>
-        <form method="post">
-            <table>
-                <tr>
-                    <td>@Html.LabelFor(c => c.Code)</td>                  
-                    <td>@Html.TextBoxFor(c => c.Code, Model.Code)</td>
-                    <td>@Html.ValidationMessageFor(c => c.Code)</td>
-                </tr>
-                <tr>
-                    <td>@Html.LabelFor(c => c.Name)</td>                 
-                    <td>@Html.TextBoxFor(c => c.Name, Model.Name)</td>
-                    <td>@Html.ValidationMessageFor(c => c.Name)</td>
-                </tr>
-                <tr>
-                    <td>@Html.LabelFor(c => c.Address)</td>
-                    <td>@Html.TextBoxFor(c => c.Address, Model.Address)</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>@Html.LabelFor(c => c.Email)</td>
-                    <td>@Html.TextBoxFor(c => c.Email, Model.Email)</td>
-                    <td>@Html.ValidationMessageFor(c => c.Email)</td>
-                </tr>
-                <tr>
-                    <td>@Html.LabelFor(c => c.Contact)</td>
-                    <td>@Html.TextBoxFor(c => c.Contact, Model.Contact)</td>
-                    <td>@Html.ValidationMessageFor(c => c.Contact)</td>
-                </tr>
-                <tr>
-                    <td>@Html.LabelFor(c => c.ContactPerson)</td>
-                    <td>@Html.TextBoxFor(c => c.ContactPerson, Model.ContactPerson)</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="submit" name="AddSupplier" value="Save" /></td>
-                    <td>
-                        @if (ViewBag.Message != null)
-                        {
-                            <h3>
-                                <b>
-                                    @ViewBag.Message
-                                </b>
-                            </h3>
-                        }
+        @{
+            Html.RenderPartial("~/Views/Shared/Supplier/_SuppliersDetails.cshtml", Model);
 
-                    </td>
-                </tr>
-
-            </table>
-        </form>
-
-        <div>
-            @{
-                Html.RenderPartial("~/Views/Shared/Supplier/_SuppliersDetails.cshtml", Model);
-
-            }
-        </div>
-        
-        
-
+        }
     </div>
+
+
+
+</div>
 
 @section MyScript
     {
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function Contains(text_one, text_two) {
+                if (text_one.indexOf(text_two) != -1)
+                    return true;
+            }
+            $("#search").keyup(function () {
+                var searchtext = $("#search").val().toLocaleLowerCase();
+                $(".Search").each(function () {
+
+
+                    if (!Contains($(this).text().toLowerCase(), searchtext)) {
+                        $(this).hide();
+                    }
+                    else {
+                        $(this).show();
+                    }
+                }
+
+
+                )
+
+            }
+
+            )
+
+
+
+        });
+
+
+    </script>
+
+
 }
+
+@*<script src="~/Scripts/jquery-1.8.0.min.js"></script>
+        <script src="~/Scripts/jquery.validate.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    </body>
+
+    </html>*@
+
 

@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_KLayout.cshtml";
 
     ViewBag.Title = "Add";
-    
+
 }
 
 @*<!DOCTYPE html>
@@ -44,7 +44,8 @@
             <tr>
                 <td>@Html.LabelFor(c => c.Code)</td>
                 <th>@Html.TextBoxFor(c => c.Code, Model.Code)</th>
-                <td>@Html.ValidationMessageFor(c => c.Code)</td>
+                <td><p id="code">@Html.ValidationMessageFor(c => c.Code)</p></td>
+                <td></td>
             </tr>
             <tr>
                 <td>@Html.LabelFor(c => c.Name)</td>
@@ -59,12 +60,12 @@
             <tr>
                 <td>@Html.LabelFor(c => c.Contact)</td>
                 <th>@Html.TextBoxFor(c => c.Contact, Model.Contact)</th>
-                <td>@Html.ValidationMessageFor(c => c.Contact)</td>
+                <td><p id="contact">@Html.ValidationMessageFor(c => c.Contact)</p></td>
             </tr>
             <tr>
                 <td>@Html.LabelFor(c => c.Email)</td>
                 <th>@Html.TextBoxFor(c => c.Email, Model.Email)</th>
-                <td>@Html.ValidationMessageFor(c => c.Email)</td>
+                <td><p id="email">@Html.ValidationMessageFor(c => c.Email)</p></td>
             </tr>
             <tr>
                 <td>@Html.LabelFor(c => c.LoyalityPoint)</td>
@@ -98,36 +99,9 @@
 
 <div style="height:100px; width:100px"></div>
 <div>
-    <table>
-        <tr>
-            <th>Sl</th>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Contact</th>
-            <th>Email</th>
-            <th>Loyality Ponit</th>
-            <th>Action</th>
-        </tr>
-        @{ int i = 1;}
-        @foreach (var customer in Model.Customers)
-        {
-            <tr>
-                <td>@(i++)</td>
-                <td>@customer.Code</td>
-                <td>@customer.Name</td>
-                <td>@customer.Address</td>
-                <td>@customer.Contact</td>
-                <td>@customer.Email</td>
-                <td>@customer.LoyalityPoint</td>
-                <td>
-                    @Html.ActionLink("Delete", "Delete", new { Id = customer.Id })|
-                    @Html.ActionLink("Update", "Update", new { Id = customer.Id })|
-                </td>
-            </tr>
-        }
-
-    </table>
+    @{
+        Html.RenderPartial("~/Views/Shared/Customer/_CustomerShow.cshtml", Model);
+    }
 </div>
 @section MyScript
 {
@@ -136,6 +110,71 @@
 
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#Code').focusout(function () {
+                var customerCode = $("#Code").val();
+                var JsonRequestData = { CustomerCode: customerCode };
+                $.ajax({
+                    url: "/Customer/GetCodeUnique",
+                    type: "POST",
+                    data: JsonRequestData,
+                    success: function (isHas) {
+                        if (isHas == true) {
+                            $('#Code').val("");
+                            $('#code').text("code allready exit..");
+
+                        }
+
+                    },
+                    error: function () { alert("Error!!"); }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#Contact').focusout(function () {
+                var customerContact = $("#Contact").val();
+                var JsonRequestData = { CustomerContact: customerContact };
+                $.ajax({
+                    url: "/Customer/GetContactUnique",
+                    type: "POST",
+                    data: JsonRequestData,
+                    success: function (isHas) {
+                        if (isHas == true) {
+                            $('#Contact').val("");
+                            $('#contact').text("contact allready exit..");
+
+                        }
+
+                    },
+                    error: function () { alert("Error!!"); }
+                });
+            });
+        });
+    </script>
+    <script>
+        $('#Email').focusout(function () {
+            var customeremail = $("#Email").val();
+            var JsonRequestData = { CustomerEmail: customeremail };
+                $.ajax({
+                    url: "/Customer/GetEmailUnique",
+                    type: "POST",
+                    data: JsonRequestData,
+                    success: function (isHas) {
+                        if (isHas == true) {
+                            $('#Email').val("");
+                            $('#email').text("email allready exit..");
+
+                        }
+
+                    },
+                    error: function () { alert("Error!!"); }
+                });
+            });
+    
+    </script>
 }
 
 @*

@@ -10,6 +10,7 @@ using CompilerError.Models;
 
 using AutoMapper;
 using CompileError.Manager.Manager;
+using Rotativa;
 
 namespace CompilerError.Controllers
 {
@@ -42,7 +43,7 @@ namespace CompilerError.Controllers
             //var sales = _saleManager.GetAll().ToList();
             //var salesDetails = _salesDetailManager.GetAll().ToList();
 
-            var purchase = (from p in purchases where p.Date.CompareTo(startDate) >= 0 && p.Date.CompareTo(endDate) < 0 select p).ToList();
+            var purchase = (from p in purchases where p.Date.CompareTo(startDate) >= 0 && p.Date.CompareTo(endDate) <= 0 select p).ToList();
 
             var count = (from pd in purchaseDetails
                          join p in purchase on pd.PurchaseId equals p.Id
@@ -76,6 +77,15 @@ namespace CompilerError.Controllers
                        }).ToList();
             ViewBag.purchaseDetails = sum;
             return PartialView("PurchaseReportPartial/_PurchaseReport");
+        }
+
+        //Print PDF
+        public ActionResult PrintViewToPdf()
+        {
+          //  var report = new ActionAsPdf("Show");
+            var report = new ActionAsPdf("PurchaseReportPartial/_PurchaseReport");
+            //var report = new ActionAsPdf("~/Views/Shared/PurchaseReportPartial/_PurchaseReport");
+            return report;
         }
 
         public class PurchaseReport

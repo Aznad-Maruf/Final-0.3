@@ -1,7 +1,7 @@
 ﻿@model CompilerError.Models.CustomerViewModel
 
 @{
-    Layout = "~/Views/Shared/_KLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Search";
 }
 
@@ -36,7 +36,7 @@
     </style>
 }
 
-<h2>Add </h2>
+<h2>Show </h2>
 @*@using (Html.BeginForm("Search", "Customer", FormMethod.Post))
     {
 
@@ -56,7 +56,8 @@
 
         <b>search</b>
         @Html.RadioButton("option", "Name") <text>Name</text>
-        @Html.RadioButton("option", "Code")<text>Code</text>
+        @Html.RadioButton("option", "Contact") <text>Contact</text>
+        @Html.RadioButton("option", "Email")<text>Email</text>
         <input type="text" name="search" />
 
 
@@ -76,37 +77,10 @@
 </div>
 <div style="height:100px; width:100px"></div>
 <div>
-    <table>
-        <tr>
-            <th>Sl</th>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Contact</th>
-            <th>Email</th>
-            <th>Loyality Ponit</th>
-            <th>Action</th>
-        </tr>
-        @{ int i = 1;}
-        @foreach (var customer in Model.Customers)
-        {
-            <tr>
-                <td>@(i++)</td>
-                <td>@customer.Code</td>
-                <td>@customer.Name</td>
-                <td>@customer.Address</td>
-                <td>@customer.Contact</td>
-                <td>@customer.Email</td>
-                <td>@customer.LoyalityPoint</td>
-                <td>
-                    @Html.ActionLink("Delete", "Delete", new { Id = customer.Id })|
-                    @Html.ActionLink("Update", "Update", new { Id = customer.Id })|
-
-                </td>
-            </tr>
-        }
-
-    </table>
+    @{
+        Html.RenderPartial("~/Views/Shared/Customer/_CustomerShow.cshtml", Model);
+    }
+   
     @Html.ActionLink("Add", "Add")
 </div>
 @section MyScript

@@ -148,27 +148,29 @@
                 </li>
 
                 <li class="dropdown">
-                    <a href="#">Purchase</a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="@Url.Action("Add", "Purchase")">Add</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Search", "Purchase")">Search</a>
-                        </li>
-                        <li><a href="#">Edit</a></li>
-                        <li><a href="#">Remove</a></li>
-                    </ul>
-                </li>
 
-                <li class="dropdown">
-                    <a href="#">Stock</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Add</a></li>
+                        <a href="@Url.Action("Add", "Purchase")">Purchase</a>
+
+                    @*<ul class="dropdown-menu">
+                        <li>
+                            <a href="@Url.Action("Add", "Purchase")"> Add</a>
+                        </li>
                         <li><a href="#">Search</a></li>
                         <li><a href="#">Edit</a></li>
                         <li><a href="#">Remove</a></li>
-                    </ul>
+                    </ul>*@
+                </li>
+
+                <li class="dropdown">
+                    <a href="@Url.Action("StockRepot", "StockReport")">Stock</a>
+                    @*<ul class="dropdown-menu">
+                        <li>
+                            <a href="@Url.Action("StockRepot", "StockReport")"> Add</a>
+                        </li>
+                        <li><a href="#">Search</a></li>
+                        <li><a href="#">Edit</a></li>
+                        <li><a href="#">Remove</a></li>
+                    </ul>*@
                 </li>
 
                 <li class="dropdown">

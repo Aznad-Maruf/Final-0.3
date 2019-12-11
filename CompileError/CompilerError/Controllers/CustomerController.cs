@@ -29,7 +29,7 @@ namespace CompilerError.Controllers
            
             string message = "";
            if (ModelState.IsValid)
-            {
+           {
 
                 Customer customer = Mapper.Map < Customer > (customerViewModel);
               
@@ -42,12 +42,14 @@ namespace CompilerError.Controllers
                 {
                     message = "not saved";
                 }
-            
+                return RedirectToAction("Search");
+
             }
 
             customerViewModel.Customers = _customerManager.GetAll();
             ViewBag.Message = message;
             return View(customerViewModel);
+            
         }
 
         [HttpGet]
@@ -63,16 +65,41 @@ namespace CompilerError.Controllers
         {
             CustomerViewModel customerViewModel = new CustomerViewModel();
             List<Customer> customers = _customerManager.GetAll();
-            if(option=="Name")
+
+            if (option == "Name")
             {
-                customers = customers.Where(c => c.Name==search || search == null).ToList();
+                if (!string.IsNullOrEmpty(search))
+
+                    customers = customers
+                    .Where(c => c.Name.ToLower().Contains(search.ToLower())).ToList();
+                
+
             }
-            else if(option=="Code")
+            if (option == "Code")
             {
-                customers = customers.Where(c => c.Code == search || search == null).ToList();
+                if (!string.IsNullOrEmpty(search))
+
+                    customers = customers
+                    .Where(c => c.Code.ToLower().Contains(search.ToLower())).ToList();
+                
             }
-       
-            
+            if (option == "Contact")
+            {
+                if (!string.IsNullOrEmpty(search))
+
+                    customers = customers
+                    .Where(c => c.Contact.ToLower().Contains(search.ToLower())).ToList();
+                
+            }
+            if (option == "Email")
+            {
+                if (!string.IsNullOrEmpty(search))
+
+                    customers = customers
+                    .Where(c => c.Email.ToLower().Contains(search.ToLower())).ToList();
+               
+            }
+
             customerViewModel.Customers = customers;
 
             return View(customerViewModel);
@@ -88,6 +115,7 @@ namespace CompilerError.Controllers
         [HttpGet]
         public ActionResult Update(int id)
         {
+
             CustomerViewModel customerViewModel = Mapper.Map<CustomerViewModel>(_customerManager.Search(id));
             customerViewModel.Customers = _customerManager.GetAll();
             return View(customerViewModel);
@@ -97,11 +125,52 @@ namespace CompilerError.Controllers
         public ActionResult Update(CustomerViewModel customerViewModel)
         {
             Customer customer = Mapper.Map<Customer>(customerViewModel);
-            _customerManager.Update(customer);
+            if (ModelState.IsValid)
+            {
+                _customerManager.Update(customer);
+            }
             customerViewModel.Customers = _customerManager.GetAll();
           //  return View(customerViewModel);
-            return RedirectToAction("Add");
+            return RedirectToAction("Search");
 
+        }
+        public JsonResult GetCodeUnique(string CustomerCode)
+        {
+            bool isHas = false;
+           
+            var customercode = _customerManager.GetAll().Where(c => c.Code == CustomerCode);
+            if(customercode.Count()>0)
+            {
+                isHas=true;
+            }
+
+            return Json(isHas, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetContactUnique(string CustomerContact)
+        {
+
+            bool isHas = false;
+
+            var customercontact = _customerManager.GetAll().Where(c => c.Contact == CustomerContact);
+            if (customercontact.Count() > 0)
+            {
+                isHas = true;
+            }
+
+            return Json(isHas, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetEmailUnique(string CustomerEmail)
+        {
+
+            bool isHas = false;
+
+            var customeremail = _customerManager.GetAll().Where(c => c.Email == CustomerEmail);
+            if (customeremail.Count() > 0)
+            {
+                isHas = true;
+            }
+
+            return Json(isHas, JsonRequestBehavior.AllowGet);
         }
 
     }
