@@ -1,0 +1,55 @@
+﻿@using CompileError.Model.Model
+@using CompilerError.Models
+@model CompilerError.Models.PurchaseModelView
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>SI</th>
+                <th>@Html.LabelFor(c => c.ProductCode)</th>
+                <th>@Html.LabelFor(c => c.ManufactureDate)</th>
+                <th>@Html.LabelFor(c => c.ExpireDate)</th>
+                <th>@Html.LabelFor(c => c.Quantity)</th>
+                <th>@Html.LabelFor(c => c.UnitPrice)</th>
+                <th>@Html.LabelFor(c => c.TotalPrice)</th>
+                <th>@Html.LabelFor(c => c.Mrp)</th>
+                <th>@Html.LabelFor(c => c.Remarks)</th>
+                <th>@Html.Label("Action")</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        @{
+            int i=0;
+            //Dictionary<string,string> idNameDictionary = new Dictionary<string, string>();
+            //foreach (var modelProductSelectListItem in Model.ProductSelectListItems)
+            //{
+            //    idNameDictionary[modelProductSelectListItem.Value] = modelProductSelectListItem.Text;
+            //}
+            foreach (PurchasedProduct purchasedProduct in Model.PurchasedProducts)
+            {
+            <tr>
+                <td>@(++i)</td>
+                @*<td>@idNameDictionary[purchasedProduct.ProductId.ToString()]</td>*@
+                <td>@purchasedProduct.ProductId</td>
+                <td>@purchasedProduct.ManufactureDate</td>
+                <td>@purchasedProduct.ExpireDate</td>
+                <td>@purchasedProduct.Quantity</td>
+                <td>@purchasedProduct.UnitPrice</td>
+                <td>@purchasedProduct.UnitPrice*purchasedProduct.Quantity</td>
+                <td>@purchasedProduct.Mrp</td>
+                <td>@purchasedProduct.Remarks</td>
+                <td>
+
+                    @*<button class="btn btn-info">@Html.ActionLink("Edit", "EditPurchase", "Purchase", new { Id = PurchasedProduct.Id }, new { style = "text-decoration:null;color:#fff;" })</button>*@
+
+                    @* Use modal later *@
+                    @*<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Edit</button>*@
+                </td>
+            </tr>
+            }
+        }
+        </tbody>
+    </table>
+</div>

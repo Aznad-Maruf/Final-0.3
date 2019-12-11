@@ -1,0 +1,72 @@
+﻿@using CompileError.Model.Model
+@using CompileError.Models
+@model CompileError.Models.PurchaseModelView
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.Label("SI")</th>
+                <th>@Html.LabelFor(c => c.Date)</th>
+                <th>@Html.LabelFor(c => c.BillNo)</th>
+                <th>@Html.LabelFor(c => c.SupplierId)</th>
+                <th>@Html.LabelFor(c => c.CategoryId)</th>
+                <th>@Html.LabelFor(c => c.ProductId)</th>
+                <th>@Html.LabelFor(c => c.ManufactureDate)</th>
+                <th>@Html.LabelFor(c => c.ExpireDate)</th>
+                <th>@Html.LabelFor(c => c.Quantity)</th>
+                <th>@Html.LabelFor(c => c.UnitPrice)</th>
+                <th>@Html.LabelFor(c => c.TotalPrice)</th>
+                <th>@Html.LabelFor(c => c.Mrp)</th>
+                <th>@Html.LabelFor(c => c.Remarks)</th>
+                <th>@Html.Label("Action")</th>
+                @*<th>Action</th>*@
+            </tr>
+        </thead>
+        <tbody>
+        @{
+            int i=0;
+            Dictionary<string,string> CategoryIdNameDictionary = new Dictionary<string, string>();
+            foreach (var modelCategorySelectListItem in Model.CategorySelectListItems)
+            {
+                CategoryIdNameDictionary[modelCategorySelectListItem.Value] = modelCategorySelectListItem.Text;
+            }
+            Dictionary<string,string> productIdNameDictionary = new Dictionary<string, string>();
+            foreach (var modelProductSelectListItem in Model.ProductSelectListItems)
+            {
+                productIdNameDictionary[modelProductSelectListItem.Value] = modelProductSelectListItem.Text;
+            }
+            Dictionary<string, string> supplierIdNameDictionary = new Dictionary<string, string>();
+            foreach (var supplierSelectListItem in Model.SupplierSelectListItems)
+            {
+                supplierIdNameDictionary[supplierSelectListItem.Value] = supplierSelectListItem.Text;
+            }
+            foreach (PurchaseModelView purchase in Model.PurchaseModelViews)
+            {
+            <tr>
+                <td>@(++i)</td>
+                <td>@purchase.Date</td>
+                <td>@purchase.BillNo</td>
+                <td>@supplierIdNameDictionary[purchase.SupplierId.ToString()]</td>
+                <td>@CategoryIdNameDictionary[purchase.CategoryId.ToString()]</td>
+                <td>@productIdNameDictionary[purchase.ProductId.ToString()]</td>
+                <td>@purchase.ManufactureDate</td>
+                <td>@purchase.ExpireDate</td>
+                <td>@purchase.Quantity</td>
+                <td>@purchase.UnitPrice</td>
+                <td>@purchase.TotalPrice</td>
+                <td>@purchase.Mrp</td>
+                <td>@purchase.Remarks</td>
+                <td>
+
+                    <button class="btn btn-info">@Html.ActionLink("Edit", "EditProduct", "Product", new { Id = purchase.Id }, new { style = "text-decoration:null;color:#fff;" })</button>
+
+                    @* Use modal later *@
+                    @*<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Edit</button>*@
+                </td>
+            </tr>
+            }
+        }
+        </tbody>
+    </table>
+</div>

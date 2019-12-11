@@ -1,0 +1,125 @@
+﻿@using CompileError.Model.Model
+@using CompilerError.Models
+@model CompileError.Models.ProductModelView
+<div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>SI</th>
+            <th>@Html.LabelFor(c => c.Code)</th>
+            <th>@Html.LabelFor(c=>c.Name)</th>
+            
+            <th>@Html.LabelFor(c => c.CategoryId)</th>
+            <th>@Html.LabelFor(c => c.ReorderLevel)</th>
+            <th>@Html.LabelFor(c => c.Description)</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+            @{
+                int i=0;
+                Dictionary<string,string> idNameDictionary = new Dictionary<string, string>();
+                foreach (var modelCategorySelectListItem in Model.CategorySelectListItems)
+                {
+                    idNameDictionary[modelCategorySelectListItem.Value] = modelCategorySelectListItem.Text;
+                }
+                foreach (Product product in Model.Products)
+                {
+                    <tr>
+                        <td>@(++i)</td>
+                        <td>@product.Code</td>
+                        <td>@product.Name</td>
+                        <td>@idNameDictionary[product.CategoryId.ToString()]</td>
+                        <td>@product.ReorderLevel</td>
+                        <td>@product.Description</td>
+                        <td>
+                            
+                            <button class="btn btn-info">@Html.ActionLink("Edit","EditProduct","Product",new{Id=product.Id},new {style="text-decoration:null;color:#fff;"})</button>
+
+                            @* Use modal later *@
+                            @*<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Edit</button>*@
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@* ............Modal.............. *@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                @* ..Main Section.. *@
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Add new product</h2>
+                    </div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm(FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.Code)
+                                @Html.TextBoxFor(c => c.Code, new { @class = "form-control", placeholder = "Enter Code" })
+                                @Html.ValidationMessageFor(c => c.Code, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.Name)
+                                @Html.TextBoxFor(c => c.Name,
+                                    new {@class = "form-control", placeholder="Enter Name"})
+                                @Html.ValidationMessageFor(c => c.Name,"",
+                                    new {@class = "text-danger"})
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.CategoryId)
+                                @Html.DropDownListFor(c => c.CategoryId, Model.CategorySelectListItems, "--Select--", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(c => c.CategoryId,"",
+                                    new {@class = "text-danger"})
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.ReorderLevel)
+                                @Html.TextBoxFor(c => c.ReorderLevel,
+                                    new {@class = "form-control", placeholder="Enter reorder level", @type="number"})
+                                @Html.ValidationMessageFor(c => c.ReorderLevel,"",
+                                    new {@class = "text-danger"})
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.Description)
+                                @Html.TextBoxFor(c => c.Description,
+                                    new {@class = "form-control", placeholder="Enter Description"})
+                                @Html.ValidationMessageFor(c => c.Description,"",
+                                    new {@class = "text-danger"})
+                            </div>
+
+                            <input type="submit" value="Add" class="btn-lg btn-primary" />
+                        }
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

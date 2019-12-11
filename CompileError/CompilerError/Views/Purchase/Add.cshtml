@@ -1,0 +1,488 @@
+﻿@using CompileError.Model.Model
+@model CompileError.Models.PurchaseModelView
+@{
+    Layout = "~/Views/Shared/_KLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Add</title>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css"/>
+    
+    @section MyCSS
+    {
+        
+    }
+
+</head>
+
+
+<body>
+    <div>
+        @* ..Main Section.. *@
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h2 class="panel-title">Purchase Products</h2>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm(FormMethod.Post) )
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">Purchase</h2>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.Date)
+                                @Html.TextBoxFor(c => c.Date
+                                , new {@class = "form-control", @type = "date", placeholder = "Enter Date"})
+                                @Html.ValidationMessageFor(c => c.Date, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.BillNo)
+                                @Html.TextBoxFor(c => c.BillNo,
+                                    new {@class = "form-control", placeholder = "Enter Name"})
+                                @Html.ValidationMessageFor(c => c.BillNo, "",
+                                    new {@class = "text-danger"})
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.SupplierId)
+                                @Html.DropDownListFor(c => c.SupplierId, Model.SupplierSelectListItems, "--select", new { @class = "form-control" })
+                                @*@Html.TextBoxFor(c => c.SupplierId,
+                        new {@class = "form-control", placeholder = "Enter Name"})*@
+                                @Html.ValidationMessageFor(c => c.SupplierId, "",
+                                    new {@class = "text-danger"})
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">Products</h2>
+                        </div>
+                        <div class="panel-body">
+                            @*..Products..*@
+
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(c => c.CategoryId)
+                                        @Html.DropDownListFor(c => c.CategoryId, Model.CategorySelectListItems, "--Select--", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(c => c.CategoryId, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(c => c.ProductId)
+                                        @Html.DropDownListFor(c => c.ProductId, Model.ProductSelectListItems, "--Select--", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(c => c.ProductId, "", new { @class = "text-danger" })
+                                        <span id="productValidation"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(c => c.ProductCode)
+                                        @Html.TextBoxFor(c => c.ProductCode, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(c => c.ProductCode, "",
+                                            new {@class = "text-danger"})
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(c => c.AvailableQuantity)
+                                        @Html.TextBoxFor(c => c.AvailableQuantity, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(c => c.AvailableQuantity, "",
+                                            new {@class = "text-danger"})
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(c => c.ManufactureDate)
+                                        @Html.TextBoxFor(c => c.ManufactureDate, new { @class = "form-control", placeholder = "Enter Code", type = "date" })
+                                        @Html.ValidationMessageFor(c => c.ManufactureDate, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(c => c.ExpireDate)
+                                        @Html.TextBoxFor(c => c.ExpireDate, new { @class = "form-control", placeholder = "Enter Code", type = "date" })
+                                        @Html.ValidationMessageFor(c => c.ExpireDate, "", new { @class = "text-danger" })
+                                    </div>
+
+                                   
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(c => c.Quantity)
+                                        @Html.TextBoxFor(c => c.Quantity, new { @class = "form-control", placeholder = "Enter Code", type = "number" })
+                                        @Html.ValidationMessageFor(c => c.Quantity, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(c => c.UnitPrice)
+                                        @Html.TextBoxFor(c => c.UnitPrice, new { @class = "form-control", placeholder = "Enter Code", type = "number" })
+                                        @Html.ValidationMessageFor(c => c.UnitPrice, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(c => c.TotalPrice)
+                                        @Html.TextBoxFor(c => c.TotalPrice, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(c => c.TotalPrice, "",
+                                            new {@class = "text-danger"})
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(c => c.PreviousUnitPrice)
+                                        @Html.TextBoxFor(c => c.PreviousUnitPrice, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(c => c.PreviousUnitPrice, "",
+                                            new {@class = "text-danger"})
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(c => c.PreviousMrp)
+                                        @Html.TextBoxFor(c => c.PreviousMrp, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(c => c.PreviousMrp, "",
+                                            new {@class = "text-danger"})
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(c => c.Mrp)
+                                        @Html.TextBoxFor(c => c.Mrp, new { @class = "form-control", placeholder = "Enter Code" })
+                                        @Html.ValidationMessageFor(c => c.Mrp, "", new { @class = "text-danger" })
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                            </div>
+
+                           
+
+                            
+
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.Remarks)
+                                @Html.TextAreaFor(c => c.Remarks, new { @class = "form-control", placeholder = "Enter Remarks" })
+                                @Html.ValidationMessageFor(c => c.Remarks, "", new { @class = "text-danger" })
+                            </div>
+
+                            <input type="button" id="addButton" value="Add" class="btn btn-success" />
+
+                        </div>
+                    </div>
+
+
+                    @*<div>
+                @{
+                    Html.RenderPartial("~/Views/Shared/Purchase/_InCartProducts.cshtml", Model);
+
+                }
+            </div>*@
+
+                    //......................Table.........................
+
+                    <div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>@Html.Label("SI")</th>
+                                    <th>@Html.LabelFor(c => c.ProductCode)</th>
+                                    <th>@Html.LabelFor(c => c.ManufactureDate)</th>
+                                    <th>@Html.LabelFor(c => c.ExpireDate)</th>
+                                    <th>@Html.LabelFor(c => c.Quantity)</th>
+                                    <th>@Html.LabelFor(c => c.UnitPrice)</th>
+                                    <th>@Html.LabelFor(c => c.TotalPrice)</th>
+                                    <th>@Html.LabelFor(c => c.Mrp)</th>
+                                    <th>@Html.LabelFor(c => c.Remarks)</th>
+                                    <th>@Html.Label("Action")</th>
+                                    @*<th>Action</th>*@
+                                </tr>
+                            </thead>
+                            <tbody id="productTableBody">
+                                @*@{
+                                    int i = 0;
+                                    Dictionary<string,string> idNameDictionary = new Dictionary<string, string>();
+                                    foreach (var modelProductSelectListItem in Model.ProductSelectListItems)
+                                    {
+                                        idNameDictionary[modelProductSelectListItem.Value] = modelProductSelectListItem.Text;
+                                    }
+                                    foreach (PurchasedProduct purchasedProduct in Model.PurchasedProducts)
+                                    {
+                                        <tr>
+                                            <td>@(++i)</td>
+                                            @*<td>@idNameDictionary[purchasedProduct.ProductId.ToString()]</td>
+                                            <td>@purchasedProduct.ProductId</td>
+                                            <td>@purchasedProduct.ManufactureDate</td>
+                                            <td>@purchasedProduct.ExpireDate</td>
+                                            <td>@purchasedProduct.Quantity</td>
+                                            <td>@purchasedProduct.UnitPrice</td>
+                                            <td>@purchasedProduct.UnitPrice*purchasedProduct.Quantity</td>
+                                            <td>@purchasedProduct.Mrp</td>
+                                            <td>@purchasedProduct.Remarks</td>
+                                            <td>
+
+                                                @*<button class="btn btn-info">@Html.ActionLink("Edit", "EditPurchase", "Purchase", new { Id = PurchasedProduct.Id }, new { style = "text-decoration:null;color:#fff;" })</button>*@
+
+                                                @* Use modal later 
+                                                @*<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Edit</button>
+                                            </td>
+                                        </tr>
+                                    }
+                                }*@
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+
+                    <input id="purchaseSubmitButton" type="submit" value="Purchase" class="btn-lg btn-primary" />
+                }
+            </div>
+        </div>
+
+    </div>
+
+    @* ......Scripts........ *@
+    @section MyScript
+    {
+
+        @*<script src="~/Scripts/bootstrap.min.js"></script>*@
+        <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $('#CategoryId').change(function(e) {
+                    var id = e.target.value;
+                    console.log(id);
+
+                    var jsonId = { categoryId: id };
+                    $('#ProductId').empty();
+                    $('#ProductId').append(new Option("--Select--",0));
+                    $.ajax({
+                        url: "/Purchase/GetProductJsonResult",
+                        type: "POST",
+                        data: jsonId,
+                        success: function(products) {
+                            $.each(products, function (index, value)
+                            {
+                                //console.log(value);
+                                $("#ProductId").append(new Option(value.Name, value.Id));
+                            });
+                        },
+                        error: ""
+                    });
+
+
+                });
+
+                $('#ProductId').change(function (e) {
+                    var id = e.target.value;
+                    console.log(id);
+
+                    var jsonId = { productId: id };
+                    $.ajax({
+                        url: "/Purchase/GetProductInfoJsonResult",
+                        type: "POST",
+                        data: jsonId,
+                        success: function (productInfo) {
+                            $("#PreviousMrp").val(productInfo.PreviousMrp);
+                            $("#PreviousUnitPrice").val(productInfo.PreviousUnitPrice);
+                            $("#ProductCode").val(productInfo.ProductCode);
+                            $("#AvailableQuantity").val(productInfo.AvailableQuantity);
+                        },
+                        error: ""
+                    });
+
+
+                });
+
+               
+                $("#Quantity").keyup(function(e) {
+                    //alert("inQuantity");
+
+                    var quantity = e.target.value;
+                    console.log(quantity);
+                    var unitPrice = $("#UnitPrice").val();
+                    if (quantity == "" || unitPrice == "") {
+                        $("#TotalPrice").val(0);
+                    }
+                    else {
+                        $("#TotalPrice").val(quantity * unitPrice);
+                    }
+                });
+
+                $("#UnitPrice").keyup(function (e) {
+                    //alert("inQuantity");
+
+                    var unitPrice = e.target.value;
+                    console.log(unitPrice);
+                    var quantity = $("#Quantity").val();
+                    if (quantity == "" || unitPrice == "") {
+                        $("#TotalPrice").val(0);
+                    }
+                    else {
+                        var totalPrice = (quantity * unitPrice).toFixed(2);
+                        $("#TotalPrice").val(totalPrice);
+                    }
+
+                    if (unitPrice != "") {
+                        console.log(unitPrice*.25);
+                        var mrp =Number(unitPrice) + Number(unitPrice * .25);
+                        $("#Mrp").val(mrp);
+                    } else {
+                        $("#Mrp").val(0);
+                    }
+                });
+
+                var index = 0;
+                $("#addButton").click(function () {
+                    $("form").validate();
+                    if ($("form").valid()) {
+                        //alert("Valid");
+                        addProductsInList();
+                    } else {
+                        //alert("Invalid");
+                    }
+                    //alert("After");
+                });
+
+                function getProductInfo() {
+                    var categoryId = $("#CategoryId").val();
+                    var productCode = $("#ProductCode").val();
+                    var manufactureDate = $("#ManufactureDate").val();
+                    var expireDate = $("#ExpireDate").val();
+                    var quantity = $("#Quantity").val();
+                    var unitPrice = $("#UnitPrice").val();
+                    var totalPrice = $("#TotalPrice").val();
+                    var mrp = $("#Mrp").val();
+                    var remarks = $("#Remarks").val();
+
+                    var jsonProductInfo = {
+                        CategoryId: categoryId,
+                        ProductCode: productCode,
+                        ManufactureDate: manufactureDate,
+                        ExpireDate: expireDate,
+                        Quantity: quantity,
+                        UnitPrice: unitPrice,
+                        TotalPrice: totalPrice,
+                        Mrp: mrp,
+                        Remarks: remarks
+                    };
+
+                    return jsonProductInfo;
+                }
+
+                function createRowFromData(jsonProductInfo) {
+                    
+                    var productIdCell = "<td><input type='hidden' name='PurchasedProducts[" + index + "].ProductId' /></td>";
+
+
+                    var newRow = "<tr>" + productIdCell + "</tr>";
+
+                    $("#productDetailsRows").append(newRow);
+                    //$("#s")
+                };
+
+
+                //.............Copy...............
+                function addProductsInList() {
+
+                    var getProducts = getProductsFromTextBox();
+                    if (getProducts == "0") return 0;
+
+                    var index = $("#productTableBody").children("tr").length;
+
+                    var sl = index;
+                    var indexCell = "<td style='display:none'><input type='hidden' id='index" + index + "' name='PurchaseDetails.index' value='" + index + "' /></td>";
+                    var slCell = "<td>" + (++sl) + "</td>";
+                    var productCell = "<td style='display:none'><input type='hidden' id='product" + index + "' name='PurchasedProducts[" + index + "].ProductId' value='" + getProducts.ProductId + "'/></td>";
+                    //var productCodeCell = "<td style='display:none'><input type='hidden' name='PurchasedProducts[" + index + "].ProductCode' value='" + getProducts.ProductCode + "'/></td>";
+                    var productCodeCell = "<td>" + getProducts.ProductCode + "</td>";
+                    var manufactureDateCell = "<td><input type='hidden' id='manufactureDate" + index + "' name='PurchasedProducts[" + index + "].ManufactureDate' value='" + getProducts.ManufactureDate + "' />" + getProducts.ManufactureDate + "</td>";
+                    var expireDateCell = "<td><input type='hidden' id='expireDate" + index + "' name='PurchasedProducts[" + index + "].ExpireDate' value='" + getProducts.ExpireDate + "' />" + getProducts.ExpireDate + "</td>";
+                    var quantityCell = "<td><input type='hidden' id='quantity" + index + "' name='PurchasedProducts[" + index + "].Quantity' value='" + getProducts.Quantity + "' />" + getProducts.Quantity + "</td>";
+                    var unitPriceCell = "<td><input type='hidden' id='unitPrice" + index + "' name='PurchasedProducts[" + index + "].UnitPrice' value='" + getProducts.UnitPrice + "' />" + getProducts.UnitPrice + "</td>";
+                    var totalPriceCell = "<td><input type='hidden' id='totalPrice" + index + "' name='PurchasedProducts[" + index + "].TotalPrice' value='" + getProducts.TotalPrice + "' />" + getProducts.TotalPrice + "</td>";
+                    var mrpCell = "<td><input type='hidden' id='newMRP" + index + "' name='PurchasedProducts[" + index + "].Mrp' value='" + getProducts.MRP + "' />" + getProducts.MRP + "</td>";
+                    var remarksCell = "<td><input type='hidden' id='remark" + index + "' name='PurchasedProducts[" + index + "].Remarks' value='" + getProducts.Remarks + "' />" + getProducts.Remarks + "</td>";
+
+                    var deleteCell = "<td><a id='deleteCell' class='btn btn-danger'><i class='glyphicon glyphicon-trash'></i></a></td>";
+
+                    var createRow = "<tr>" + indexCell + slCell + productCell + productCodeCell + manufactureDateCell + expireDateCell + quantityCell + unitPriceCell + totalPriceCell + mrpCell + remarksCell + deleteCell + "</tr>";
+                    $("#productTableBody").append(createRow);
+                    $("#purchaseSubmitButton").prop('disabled', false);
+                }
+
+                $(".table").on('click', '#deleteCell', function () {
+                    $(this).parent().parent().remove();
+                });
+
+
+                function getProductsFromTextBox() {
+
+                    var productId = $("#ProductId").val();
+                    var productCode = $("#ProductCode").val();
+                    var manufactureDate = $("#ManufactureDate").val();
+                    var expireDate = $("#ExpireDate").val();
+                    var quantity = $("#Quantity").val();
+                    var unitPrice = $("#UnitPrice").val();
+                    var totalPrice = $("#TotalPrice").val();
+                    var MRP = $("#Mrp").val();
+                    var remarks = $("#Remarks").val();
+
+                    if (productId==0) {
+                        $("#productValidation").text("Can't be empty");
+                        return "0";
+                    }
+                    //if (quantity === undefined || quantity.length == 0) {
+                    //    alert('Please enter product quantity!');
+                    //    return "0";
+                    //}
+                    //if (unitPrice === undefined || unitPrice.length == 0) {
+                    //    alert('Please enter product unit price!');
+                    //    return "0";
+                    //}
+                    //if (manufacturedate === undefined || manufacturedate == "") {
+                    //    alert('Enter Manufacture Date!');
+                    //    return "0";
+                    //}
+                    //if (expiredate === undefined || expiredate.length == 0) {
+                    //    alert('Enter Expire Date!');
+                    //    return "0";
+                    //}
+
+                    var product = {
+
+                        "ProductId": productId,
+                        "ProductCode": productCode,
+                        "ManufactureDate": manufactureDate,
+                        "ExpireDate": expireDate,
+                        "Quantity": quantity,
+                        "UnitPrice": unitPrice,
+                        "TotalPrice": totalPrice,
+                        "MRP": MRP,
+                        "Remarks": remarks,
+                    }
+                    return product;
+                }
+
+            });
+        </script>
+    }
+
+
+</body>
+</html>

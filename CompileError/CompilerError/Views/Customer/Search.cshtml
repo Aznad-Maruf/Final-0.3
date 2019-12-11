@@ -1,0 +1,122 @@
+﻿@model CompilerError.Models.CustomerViewModel
+
+@{
+    Layout = "~/Views/Shared/_KLayout.cshtml";
+    ViewBag.Title = "Search";
+}
+
+
+@*<!DOCTYPE html>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+
+
+
+    </head>
+    <body>*@
+@section MyCSS
+{
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+}
+
+<h2>Add </h2>
+@*@using (Html.BeginForm("Search", "Customer", FormMethod.Post))
+    {
+
+
+
+
+        <b>search</b>
+        @Html.RadioButton("option", "Name") <text>Name</text>
+        @Html.RadioButton("option", "Code")
+        @Html.TextBox("search")< input type = "submit" name = "submit"  value = "Search" / >
+
+
+        }*@
+<div>
+    <form method='post' style='text-align:center'>
+
+
+        <b>search</b>
+        @Html.RadioButton("option", "Name") <text>Name</text>
+        @Html.RadioButton("option", "Code")<text>Code</text>
+        <input type="text" name="search" />
+
+
+
+
+
+        <input type='submit' name='search' value="search" style='color:green'>
+
+
+
+
+
+
+
+    </form>
+
+</div>
+<div style="height:100px; width:100px"></div>
+<div>
+    <table>
+        <tr>
+            <th>Sl</th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Contact</th>
+            <th>Email</th>
+            <th>Loyality Ponit</th>
+            <th>Action</th>
+        </tr>
+        @{ int i = 1;}
+        @foreach (var customer in Model.Customers)
+        {
+            <tr>
+                <td>@(i++)</td>
+                <td>@customer.Code</td>
+                <td>@customer.Name</td>
+                <td>@customer.Address</td>
+                <td>@customer.Contact</td>
+                <td>@customer.Email</td>
+                <td>@customer.LoyalityPoint</td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete", new { Id = customer.Id })|
+                    @Html.ActionLink("Update", "Update", new { Id = customer.Id })|
+
+                </td>
+            </tr>
+        }
+
+    </table>
+    @Html.ActionLink("Add", "Add")
+</div>
+@section MyScript
+{
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}
+
+@*</body>
+    </html>
+*@
+

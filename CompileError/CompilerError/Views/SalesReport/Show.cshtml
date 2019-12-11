@@ -1,0 +1,113 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+@*<!DOCTYPE html>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />*@
+@section MyStyle
+{
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+}
+
+@**  </head>
+    <body>*@
+
+<h2>Sales Report </h2>
+<div>
+
+    <table>
+
+        <tr>
+            <td>Start Date</td>
+            <td><input type='date' name='StartDate' id="StartDate" value=""></td>
+            <td>End Date</td>
+            <td><input type='date' name='EndDate' id="EndDate" value=""></td>
+            <td><input type='submit' name='submit' id="submit" value="Search" style='color:green'></td>
+        </tr>
+
+    </table>
+    <div id="stockPartial">
+
+    </div>
+
+
+</div>
+
+@section MyScript{
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+
+
+
+            /////////////////////////////////
+
+            $('#submit').click(function () {
+
+                var startdate = $("#StartDate").val();
+                var enddate = $("#EndDate").val();
+             
+                var parameters = { startDate: startdate, endDate: enddate };
+
+                $.ajax({
+                    url: "/SalesReport/GetSalesReportByDate",
+                    type: "GET",//GET/POST
+                    data: parameters,// JSON.stringify({ ProductId: proId, startDate: startdate, endDate: enddate }),
+                    success: function (data) {
+
+                        var rdata = data;
+
+                        $("#stockPartial").html(data);
+                    },
+                    error: function () { alert("Error"); }
+
+                });
+
+            });
+
+
+
+
+
+            ///////////////////////////
+
+
+
+
+
+
+
+        });
+
+
+    </script>
+}
+
+@* </body>
+    </html>*@
+

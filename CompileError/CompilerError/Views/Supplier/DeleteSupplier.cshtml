@@ -1,0 +1,67 @@
+﻿
+@model CompilerError.Models.SupplierViewModel
+
+@{
+    Layout = "~/Views/Shared/_KLayout.cshtml";
+    ViewBag.Title = "Delete Supplier";
+
+}
+
+@section MyCSS
+        {
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 6px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+
+        .input-validation-error {
+            border: 1px solid red;
+        }
+
+        .field-validation-error {
+            color: red;
+        }
+
+        .field-validation-valid {
+            display: none;
+        }
+    </style>
+}
+<div>
+    <form method="post">
+        <table>
+            <tr>
+                <td>@Html.LabelFor(c => c.Code)</td>
+                <td>@Html.TextBoxFor(c => c.Code, Model.Code)</td>
+                <td>@Html.ValidationMessageFor(c => c.Code)</td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td><input type="submit" name="DeleteSupplier" value="Dearch" style="color: red" /></td>
+                <td></td>
+            </tr>
+
+        </table>
+    </form>
+    <div>
+        @{
+            Html.RenderPartial("~/Views/Shared/Supplier/_SuppliersDetails.cshtml", Model);
+
+        }
+
+    </div>
+    
+</div>

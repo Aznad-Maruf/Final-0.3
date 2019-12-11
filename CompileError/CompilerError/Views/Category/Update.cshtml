@@ -1,0 +1,99 @@
+﻿@model CompilerError.Models.CategoryViewModel
+
+@{
+    Layout = "~/Views/Shared/_KLayout.cshtml";
+    ViewBag.Title = "update";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+
+
+</head>
+<body>
+
+    <h2>Update</h2>
+    <div>
+        <form method='post' style='text-align:center'>
+            <table>
+                <tr>
+                    <td>@Html.LabelFor(c => c.Code)</td>
+                    <th>@Html.TextBoxFor(c => c.Code, Model.Code)</th>
+                    <td>@Html.ValidationMessageFor(c => c.Code)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(c => c.Name)</td>
+                    <th>@Html.TextBoxFor(c => c.Name, Model.Name)</th>
+                    <td>@Html.ValidationMessageFor(c => c.Name)</td>
+                </tr>
+                
+
+                <tr>
+                    <td></td>
+                    <td><input type='submit' name='Add' value="save" style='color:green'></td>
+                    <td>
+                        @if (ViewBag.Message != null)
+                        {
+                            <h3>
+                                <b>
+                                    @ViewBag.Message
+                                </b>
+                            </h3>
+                        }
+
+                    </td>
+                </tr>
+                <tr></tr>
+
+
+            </table>
+
+
+        </form>
+    </div>
+    <div>
+        <table>
+            <tr>
+                <th>Sl</th>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+            @{ int i = 1;}
+            @foreach (var category in Model.Categories)
+            {
+                <tr>
+                    <td>@(i++)</td>
+                    <td>@category.Code</td>
+                    <td>@category.Name</td>
+                    <td>
+                        @Html.ActionLink("Delete", "Delete", new { Id = category.Id })|
+                        @Html.ActionLink("Update", "Update", new { Id = category.Id })|
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</body>
+</html>
+

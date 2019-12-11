@@ -1,0 +1,38 @@
+﻿
+<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="color:black ;background-color:white">
+    <tr>
+        <th>Sl</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Quantity</th>
+        <th>UnitPrice</th>
+      
+        <th>MRP</th>
+        <th>Profit</th>
+
+
+
+    </tr>
+    @{
+        var rep = ViewBag.salesDetails;
+    }
+    @{ int i = 1;}
+    @foreach (var p in rep)
+    {
+    <tr>
+
+        <td>@(i++)</td>
+        <td>@p.Code</td>
+        <td>@p.ProductName</td>
+        <td>@p.CategoryName</td>
+        <td>@p.Quantity</td>
+        <td>@p.UnitPrice</td>
+        <td>@p.MRP</td>
+        <td>@p.Profit</td>
+
+
+    </tr>
+    }
+
+</table>

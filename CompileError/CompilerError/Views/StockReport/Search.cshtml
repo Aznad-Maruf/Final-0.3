@@ -1,0 +1,121 @@
+﻿
+@model CompilerError.Models.StockViewModel
+
+
+@{
+    /**/
+
+
+    Layout = "~/Views/Shared/_KLayout.cshtml";
+    ViewBag.Title = "Search Stock";
+
+}
+
+@section MyCSS
+{
+    <style>
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+}
+
+<h2>Stock Report</h2>
+
+<div>
+    <form method="post">
+        <table>
+            <tr>
+                <td>@Html.LabelFor(c => c.ProductName)</td>
+                <td> </td>
+                <td @Html.DropDownListFor(c => c.ProductId, Model.ProductSelectListItems, "--Select--")</td>
+                <td> </td>
+                <td>@Html.LabelFor(c => c.StartDateTime)</td>
+                <td> </td>
+                <td><input type='date' name='StartDate' id="StartDate" value=""></td>
+
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(c => c.CategoryName)</td>
+                <td> </td>
+                <td @Html.DropDownListFor(c => c.CategoryId, Model.CategorySelectListItems, "--Select--")</td>
+                <td> </td>
+                <td>@Html.LabelFor(c => c.EndDateTime)</td>
+                <td> </td>
+                <td><input type='date' name='EndDate' id="EndDate" value=""></td>
+            </tr>
+            <tr>
+                <td> @Html.Label("Re-Order Lavel")</td>
+                <td> @Html.CheckBox("reorderLevel", true) </td>
+                <td> @Html.Label("Expired")</td>
+                <td> @Html.CheckBox("expired", false)</td>
+                <td>@Html.Label("Damaged")</td>
+                <td> @Html.CheckBox("damaged", false)</td>
+                <td>@Html.Label("Lost")</td>
+                <td> @Html.CheckBox("lost", false)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type='submit' name='submit' id="submit" value="Search" style='color:green'></td>
+                <td></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div style="height:100px; width:100px"></div>
+
+@section MyScript
+        {
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+            $(document).ready(function () {
+
+
+                $('#submit').click(function () {
+
+                    var startdate = $("#StartDate").val();
+                    var enddate = $("#EndDate").val();
+
+                    var parameters = { startDate: startdate, endDate: enddate };
+
+                    $.ajax({
+                        url: "/SalesReport/GetSalesReportByDate",
+                        type: "GET",//GET/POST
+                        data: parameters,// JSON.stringify({ ProductId: proId, startDate: startdate, endDate: enddate }),
+                        success: function (data) {
+
+                            var rdata = data;
+
+                            $("#stockPartial").html(data);
+                        },
+                        error: function () { alert("Error"); }
+
+                    });
+
+                });
+
+
+            });
+
+
+    </script>
+}
+
+@* </body>
+    </html>*@

@@ -1,0 +1,39 @@
+﻿@model CompilerError.Models.SupplierViewModel
+
+<table>
+    <tr>
+        <th>Sl</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Email</th>
+        <th>Contact</th>
+        <th>Contact Person</th>
+        <th>Action</th>
+    </tr>
+
+    @{ int i = 1;}
+
+    @if (Model.Suppliers != null)
+    {
+        foreach (var supplier in Model.Suppliers)
+        {
+            <tr>
+                <td>@(i++)</td>
+                <td>@supplier.Code</td>
+               
+                <td>@supplier.Name</td>
+                <td>@supplier.Address</td>
+                <td>@supplier.Email</td>
+                <td>@supplier.Contact</td>
+                <td>@supplier.ContactPerson</td>
+                <td>
+                    @Html.ActionLink("|Edit|", "UpdateSupplier", "Supplier", new { Id = supplier.Id }, null)
+                    @*@Html.ActionLink("|Delete|", "DeleteSupplier", "Supplier", new { Id = supplier.Id }, null)*@
+                </td>
+            </tr>
+        }
+    }
+
+
+</table>

@@ -1,0 +1,243 @@
+﻿@using System.Web.Mvc.Html
+@using CompileError.Model.Model
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ProductForm</title>
+
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+
+    <style>
+
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        .dropdown:hover {
+            background: #fc6b03;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            margin-top: 0px;
+        }
+
+        .dropdown:hover .dropdown-menu a:hover {
+            color: rgb(33, 209, 57);
+        }
+
+        .jumbotron {
+            background-color: rgb(193, 197, 182);
+        }
+
+        .panel-footer {
+            background-color: rgb(24, 21, 9);
+            color: #fff;
+            border-radius: 0;
+            margin-top: 220px;
+        }
+
+        @*........For table.......*@
+
+        table {
+            width: 100%;
+            padding: 30px 0px;
+            box-sizing: border-box;
+            margin: auto;
+        }
+
+        tr{
+            padding:10px;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #ddd;
+        }
+
+        @RenderSection("MyCSS", false)
+
+
+    </style>
+
+</head>
+
+<body>
+
+    @*Main Header *@
+
+    @*Main Navbar *@
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    <p><span class="text-primary"><strong>SBM</strong></span><span class="text-danger">System</span></p>
+                </a>
+            </div>
+
+            <ul class=" nav navbar-nav">
+
+
+
+                <li class="dropdown">
+                    <a href="#">Category</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="@Url.Action("Add", "Category")"> Add</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Search", "Category")" class="elements"><span>Search</span></a>
+                        </li>
+                        <li><a href="#">Edit</a></li>
+                        <li><a href="#">Remove</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Product</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="@Url.Action("AddProduct", "Product")"> Add</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("SearchProduct", "Product")"> Search</a>
+                        </li>
+                        <li><a href="#">Edit</a></li>
+                        <li><a href="#">Remove</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Customer</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="@Url.Action("Add", "Customer")">Add</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Search", "Customer")">Search</a>
+                        </li>
+                        <li><a href="#">Edit</a></li>
+                        <li><a href="#">Remove</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Supplier</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="@Url.Action("AddSupplier", "Supplier")"> Add</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("SearchSupplier", "Supplier")"> Search</a>
+                        </li>
+                        <li><a href="#">Edit</a></li>
+                        <li><a href="#">Remove</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Sales</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Add</a></li>
+                        <li><a href="#">Search</a></li>
+                        <li><a href="#">Edit</a></li>
+                        <li><a href="#">Remove</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Purchase</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="@Url.Action("Add", "Purchase")">Add</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Search", "Purchase")">Search</a>
+                        </li>
+                        <li><a href="#">Edit</a></li>
+                        <li><a href="#">Remove</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Stock</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Add</a></li>
+                        <li><a href="#">Search</a></li>
+                        <li><a href="#">Edit</a></li>
+                        <li><a href="#">Remove</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Report</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Add</a></li>
+                        <li><a href="#">Search</a></li>
+                        <li><a href="#">Edit</a></li>
+                        <li><a href="#">Remove</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">About us</a></li>
+            </ul>
+
+        </div>
+    </nav>
+
+    @*Jumbotron *@
+    <div class="jumbotron text-center">
+        <h1>
+            Welcome<br>To<br><span class="text-primary"><strong>SBM</strong></span><span class="text-danger">System</span>
+        </h1>
+    </div>
+
+
+    <section id="main">
+        <div class="container">
+            <div class="row">
+
+                <!-- Main area -->
+                <div class="col-md-9">
+
+                    <!-- Render goes here -->
+                    @*Main Section *@
+                    @RenderBody()
+
+                </div>
+
+                <!-- Side bar -->
+                <div class="col-md-3">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item active">Cras justo odio</a>
+                        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                        <a href="#" class="list-group-item">Morbi leo risus</a>
+                        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                        <a href="#" class="list-group-item">Vestibulum at eros</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <div class="panel-footer">
+        <p class="text-center">Copyright &copy; 2019 CompileError</p>
+    </div>
+
+    @* ......Script........ *@
+    <div>
+        <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+
+        @RenderSection("MyScript", false)
+    </div>
+</body>
+</html>

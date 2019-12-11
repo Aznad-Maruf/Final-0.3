@@ -1,0 +1,126 @@
+﻿@model CompilerError.Models.CustomerViewModel
+
+@{
+    Layout = null;
+    ViewBag.Title = "update";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+
+
+</head>
+<body>
+
+    <h2>Update</h2>
+    <div>
+        <form method='post' style='text-align:center'>
+            <table>
+                <tr>
+                    <td>@Html.LabelFor(c => c.Code)</td>
+                    <th>@Html.TextBoxFor(c => c.Code, Model.Code)</th>
+                    <td>@Html.ValidationMessageFor(c => c.Code)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(c => c.Name)</td>
+                    <th>@Html.TextBoxFor(c => c.Name, Model.Name)</th>
+                    <td>@Html.ValidationMessageFor(c => c.Name)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(c => c.Address)</td>
+                    <th>@Html.TextBoxFor(c => c.Address, Model.Address)</th>
+                    <td>@Html.ValidationMessageFor(c => c.Address)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(c => c.Contact)</td>
+                    <th>@Html.TextBoxFor(c => c.Contact, Model.Contact)</th>
+                    <td>@Html.ValidationMessageFor(c => c.Contact)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(c => c.Email)</td>
+                    <th>@Html.TextBoxFor(c => c.Email, Model.Email)</th>
+                    <td>@Html.ValidationMessageFor(c => c.Email)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(c => c.LoyalityPoint)</td>
+                    <th>@Html.TextBoxFor(c => c.LoyalityPoint, Model.LoyalityPoint)</th>
+                    <td>@Html.ValidationMessageFor(c => c.LoyalityPoint)</td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td><input type='submit' name='Add' value="save" style='color:green'></td>
+                    <td>
+                        @if (ViewBag.Message != null)
+                        {
+                            <h3>
+                                <b>
+                                    @ViewBag.Message
+                                </b>
+                            </h3>
+                        }
+
+                    </td>
+                </tr>
+                <tr></tr>
+
+
+            </table>
+
+
+        </form>
+    </div>
+    <div>
+        <table>
+            <tr>
+                <th>Sl</th>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Contact</th>
+                <th>Email</th>
+                <th>Loyality Ponit</th>
+                <th>Action</th>
+            </tr>
+            @{ int i = 1;}
+            @foreach (var customer in Model.Customers)
+            {
+                <tr>
+                    <td>@(i++)</td>
+                    <td>@customer.Code</td>
+                    <td>@customer.Name</td>
+                    <td>@customer.Address</td>
+                    <td>@customer.Contact</td>
+                    <td>@customer.Email</td>
+                    <td>@customer.LoyalityPoint</td>
+                    <td>
+                        @Html.ActionLink("Delete", "Delete", new { Id = customer.Id })|
+                    @Html.ActionLink("Update", "Update", new { Id = customer.Id })|
+                </td>
+            </tr>
+        }
+
+        </table>
+    </div>
+</body>
+</html>
+

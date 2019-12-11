@@ -1,0 +1,39 @@
+﻿@model CompileError.Model.Model.Customer
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GetAll</title>
+</head>
+<body>
+    <from method="post">
+        <table style="width:100%">
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Contact</th>
+                <th>Loyality Point</th>
+            </tr>
+            <tr>
+                <td>@Model.Code</td>
+                <td>@Model.Name</td>
+                <td>@Model.Address</td>
+                <td>@Model.Contact</td>
+                <td>@Model.LoyalityPoint</td>
+
+            </tr>
+            <input type='submit' name='delete' value="delete" style='color:green'>
+            <br></br>
+
+
+
+        </table>
+    </from>
+</body>
+</html>

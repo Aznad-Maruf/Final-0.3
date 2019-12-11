@@ -1,0 +1,75 @@
+﻿@model CompilerError.Models.ProductModelView
+@{
+    Layout = "~/Views/Shared/_KLayout.cshtml";
+}
+@*Main Section *@
+
+@section MyCSS
+{
+
+}
+
+@* ..Main Section.. *@
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h2 class="panel-title">Update product</h2>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm(FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(c => c.Code)
+                @Html.TextBoxFor(c => c.Code, new { @class = "form-control", placeholder = "Enter Code" })
+                @Html.ValidationMessageFor(c => c.Code, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+             
+                @Html.LabelFor(c => c.Name)
+                @Html.TextBoxFor(c => c.Name,
+                    new {@class = "form-control", placeholder="Enter Name"})
+                @Html.ValidationMessageFor(c => c.Name,"",
+                    new {@class = "text-danger"})
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(c => c.CategoryId)
+                @Html.DropDownListFor(c => c.CategoryId, Model.CategorySelectListItems, "--Select--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.CategoryId,"",
+                    new {@class = "text-danger"})
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(c => c.ReorderLevel)
+                @Html.TextBoxFor(c => c.ReorderLevel,
+                    new {@class = "form-control", placeholder="Enter reorder level", @type="number"})
+                @Html.ValidationMessageFor(c => c.ReorderLevel,"",
+                    new {@class = "text-danger"})
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(c => c.Description)
+                @Html.TextBoxFor(c => c.Description,
+                    new {@class = "form-control", placeholder="Enter Description"})
+                @Html.ValidationMessageFor(c => c.Description,"",
+                    new {@class = "text-danger"})
+            </div>
+
+            <input type="submit" value="Update" class="btn-lg btn-primary" />
+        }
+    </div>
+</div>
+
+<div>
+    @* .......Products Details *@
+    @{
+        Html.RenderPartial("~/Views/Shared/Product/_ProductDetails.cshtml", Model);
+    }
+</div>
+
+@section MyScript
+{
+    <script src="~/Scripts/jquery-1.9.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+}

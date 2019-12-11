@@ -1,0 +1,101 @@
+﻿
+@model CompilerError.Models.CategoryViewModel
+
+@{
+    Layout = "~/Views/Shared/_KLayout.cshtml";
+    ViewBag.Title = "Search";
+}
+
+@section MyCSS
+{
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+}
+
+@**  </head>
+    <body>*@
+
+<h2>Search </h2>
+@*<div>
+        <form method='post' style='text-align:center'>
+            <table>
+                <tr>
+                    <td>@Html.LabelFor(c => c.Code)</td>
+                    <th>@Html.TextBoxFor(c => c.Code, Model.Code)</th>
+                    <td>@Html.ValidationMessageFor(c => c.Code)</td>
+                </tr>
+
+
+                <tr>
+                    <td></td>
+                    <td><input type='submit' name='Add' value="Save" style='color:green'></td>
+
+                </tr>
+                <tr></tr>
+
+
+            </table>
+
+
+        </form>
+    </div>*@
+
+<div>
+    <form method='post' style='text-align:center'>
+
+        <b>search</b>
+        @Html.RadioButton("option", "Name") <text>Name</text>
+        @Html.RadioButton("option", "Code")<text>Code</text>
+        <input type="text" name="search" />
+
+
+        <input type='submit' name='search' value="search" style='color:green'>
+
+
+
+    </form>
+</div>
+
+<div style="height:100px; width:100px"></div>
+<div>
+    <table>
+        <tr>
+            <th>Sl</th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+        @{ int i = 1;}
+        @foreach (var category in Model.Categories)
+        {
+            <tr>
+                <td>@(i++)</td>
+                <td>@category.Code</td>
+                <td>@category.Name</td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete", new { Id = category.Id })|
+                    @Html.ActionLink("Update", "Update", new { Id = category.Id })|
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+@Html.ActionLink("Add", "Add")
+
+

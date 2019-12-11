@@ -1,0 +1,493 @@
+﻿@model CompilerError.Models.SalesViewModel
+
+
+@{
+
+    Layout = "~/Views/Shared/_KLayout.cshtml";
+
+    ViewBag.Title = "Add";
+
+}
+
+@*<!DOCTYPE html>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+
+
+
+    </head>
+    <body>*@
+@section MyStyle
+{
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+}
+<h2>Sales </h2>
+<div class="container-fluid">
+    @*<form method='post' style='text-align:center'>*@
+
+
+
+    <div class="row">
+        <table>
+            <tr>
+                <td>Customer</td>
+                <td width="50%">@Html.DropDownList("Customer", null, "--select--", null)</td>
+                <td><p id="customersms"></p></td>
+            </tr>
+            <tr><td>Date</td>
+                <td width="50%"><input type="date" name="Date" id="Date" /></td>
+            <td><p id="datesms"></p></td>
+            </tr>
+            <tr>
+                <td>Loyality Point</td>
+                <td><input type="text" name="LoyalityPoint" id="LoyalityPoint" /></td>
+                <td><p id="loyalitypointsms"></p></td>
+            </tr>
+            
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            @Html.Label("Category")
+        </div>
+        <div class="col-sm-6">
+            @Html.DropDownList("Category", null, "--select--", null)
+        </div>
+        <div class="col-sm-3">
+
+        </div>
+
+
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            @Html.Label("Product")
+        </div>
+        <div class="col-sm-6">
+            <select id="Product">
+                <option>--select--</option>
+
+            </select>
+        </div>
+
+        <div class="col-sm-3">
+            <p id="product"></p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            @Html.Label("Abailable Quantity")
+        </div>
+        <div class="col-sm-6">
+
+
+            @Html.TextBox("AbailableQuantity", null, null, null)
+        </div>
+        <div class="col-sm-3">
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            @Html.Label("Quantity")
+        </div>
+        <div class="col-sm-6">
+
+            @Html.TextBox("Quantity", null, null, null)
+        </div>
+    
+
+        <div class="col-sm-3">
+            <p id="quantity"></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            @Html.Label("MRP")
+        </div>
+        <div class="col-sm-6">
+            @Html.TextBox("MRP", null, null, null)
+        </div>
+        <div class="col-sm-3">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            @Html.Label("Total MRP")
+        </div>
+        <div class="col-sm-6">
+            @Html.TextBox("ToTalMRP", null, null, null)
+        </div>
+        <div class="col-sm-3">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <input type="button" id="add" value="add">
+        </div>
+
+    </div>
+    <div class="row">
+        <table class="table table-bordered table-striped table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th>Sl</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>MRP</th>
+                    <th>ToTalMRP</th>
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+            <tbody id="ResultDetailsTable"></tbody>
+
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            @Html.Label("Grand Total(Tk)")
+        </div>
+        <div class="col-sm-6">
+            @Html.TextBox("GrandTotal", null, null, null)
+        </div>
+        <div class="col-sm-3">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            @Html.Label("Discount(%)")
+        </div>
+        <div class="col-sm-6">
+            @Html.TextBox("Discount", null, null, null)
+        </div>
+        <div class="col-sm-3">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            @Html.Label("Discount Amount(tk)")
+        </div>
+        <div class="col-sm-6">
+            @Html.TextBox("DiscountAmount", null, null, null)
+        </div>
+        <div class="col-sm-3">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            @Html.Label("Payable Amount(tk)")
+        </div>
+        <div class="col-sm-6">
+            @Html.TextBox("PayableAmount", null, null, null)
+        </div>
+        <div class="col-sm-3">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <input type='button' name='Add' id='submit' value="save" style='color:green'>
+        </div>
+        <div class="col-sm-3"></div>
+
+    </div>
+
+
+    @*</form>*@
+</div>
+
+
+@section MyScript
+{
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+
+        $('#Customer').change(function () {
+            var CustomerId = $("#Customer").val();
+            var JsonRequestData = { customerid: CustomerId };
+            $.ajax({
+                url: "/Sales/GetLoyalityPointByCustomer",
+                type: "POST",
+                data: JsonRequestData,
+                success: function (customers) {
+                    $("#LoyalityPoint").val(customers);
+
+                    // alert("Success!!");
+                },
+                error: function () { alert("Error!!"); }
+            });
+        });
+    </script>
+    <script>
+
+        $('#Category').change(function () {
+            var CategoryId = $("#Category").val();
+            var JsonRequestData = { categoryId: CategoryId };
+            $.ajax({
+                url: "/Sales/GetProductByCategory",
+                type: "POST",
+                data: JsonRequestData,
+                success: function (products) {
+                    $("#Product").empty();
+                    $("#Product").append('<Option>--select--</Option>');
+                    $.each(products, function (key, value) {
+                        //alert("Id: " + value.Id + " " + "Name " + value.Name);
+                        $("#Product").append('<Option value="' + value.Id + '">' + value.Name + '</Option>');
+                    });
+
+
+
+
+                },
+                error: function () { alert("Error!!"); }
+            });
+        });
+    </script>
+    <script>
+
+        $('#Product').change(function () {
+            var ProductCode = $("#Product").val();
+            var JsonRequestData = { productcode: ProductCode };
+            $.ajax({
+                url: "/Sales/GetQuantityByProduct",
+                type: "POST",
+                data: JsonRequestData,
+                success: function (products) {
+                    // alert(products);
+                    //  $("#AbailableQuantity").val(products);
+                    $.each(products, function (key, value) {
+                        $("#AbailableQuantity").val(value.Quantity);
+                        $("#MRP").val(value.Mrp);
+
+                        //$("#Product").append('<Option value="' + value.Code + '">' + value.Name + '</Option>');
+                    });
+
+
+
+
+                },
+                error: function () { alert("Error!!"); }
+            });
+        });
+    </script>
+    <script>
+
+        $('#Quantity').focusout(function () {
+            var quantity = $("#Quantity").val();
+            var mrp = $("#MRP").val();
+            $("#ToTalMRP").val(quantity * mrp);
+
+        });
+
+
+
+
+
+
+    </script>
+    <script>
+
+        $(document).ready(function () {
+
+            var index = 1;
+            $("#add").click(function () {
+                //var customer = $('#Customer').val();
+                //var date = $("#date").val();
+                //var loyality = $("#LoyalityPoint").val();
+                var product = $('#Product').val();
+
+                var quantity = $('#Quantity').val();
+                var mrp = $('#MRP').val();
+                var totalmrp = $('#ToTalMRP').val();
+
+                //if (customer === undefined || customer.length == 0) {
+                //    $('#customersms').text("select customer");
+                //    return;
+                //}
+
+
+                //else if (loyality === undefined || loyality.length == 0) {
+
+                //    $('#loyalitypointsms').text("select customer");
+                //    return;
+                //}
+                //else if (product === undefined || product.length == 0) {
+
+                //    $('#product').text("select product");
+                //    return;
+                //}
+                //else if (quantity === undefined || quantity.length == 0) {
+
+                //    $('#quantity').text("quantity can not empty");
+                //    return;
+                //}
+
+                //var markup = "<tr>< td > " + product + "</td> <td>" + quantity + "</td><td>" + mrp + "</td><td>" + totalmrp + "</td></tr > ";
+                var row = "<tr><td>" + index + "</td><td>" + product + "</td><td>" + quantity + "</td><td>" + mrp +
+                    "</td><td>" + totalmrp + "</td><td> <button class='editRow'>Edit</button><input type='button' id='delete' name='delete' value='delete'/></td></tr > ";
+                //alert(product);
+                $("#ResultDetailsTable").append(row);
+                index++;
+
+                CalculateGrandTotal();
+                DiscountCalculate();
+                DiscountPayableAmount();
+
+            });
+            function CalculateGrandTotal() {
+                var grandTotal = 0;
+                var n = $("table").find("tr").length;
+                for (var i = 1; i < n; i++) {
+                    var value = parseInt($("tr", "table").eq(i).find("td").eq(4).text());
+                    if (!isNaN(value)) {
+                        grandTotal += value;
+                        //alert(grandTotal);
+                    }
+                }
+
+
+                $("#GrandTotal").val(grandTotal);
+            }
+            function DiscountCalculate() {
+
+                var loyalitypoint = parseFloat($("#LoyalityPoint").val());
+                var discount = parseFloat(loyalitypoint / 10);
+
+                $("#Discount").val(discount);
+            }
+            function DiscountPayableAmount() {
+                var discount = parseFloat($("#Discount").val());
+                var grandTotal = parseFloat($("#GrandTotal").val());
+                var discountPayable = parseFloat((discount / 100) * grandTotal);
+                var payableAmount = grandTotal - discountPayable;
+                $("#DiscountAmount").val(discountPayable);
+                $("#PayableAmount").val(payableAmount);
+            }
+
+            $("#ResultDetailsTable").on('click', '#delete', function () {
+                $(this).parent().parent().remove();
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#submit").click(function () {
+                
+                var customerId = $("#Customer").val();
+                var date = $("#Date").val();
+                
+                //alert($("#Date").val());
+                var loyalitypoint = $("#LoyalityPoint").val();
+                var JsonRequest = { CustomerID: customerId, Date: date, Loyalitypoint: loyalitypoint}
+                $.ajax({
+
+                    url: "/Sales/AddSales",
+                    type: "POST",
+                    data: JsonRequest,
+
+                    success: function (salesId) {
+                        alert(salesId);
+                        var salesid = salesId;
+                        var aquantity = $("#AbailableQuantity").val();
+                        var n = $("table").find("tr").length;
+
+                        for (var i = 1; i < n; i++) {
+                            var product = $("table").find("tr").eq(i).find("td").eq(1).text();
+
+                            var quantity = $("table").find("tr").eq(i).find("td").eq(2).text();
+                            var mrp = $("table").find("tr").eq(i).find("td").eq(3).text();
+                            var totalmrp = $("table").find("tr").eq(i).find("td").eq(4).text();
+
+
+                            var JsonRequestData = { ProductCode: product, Quantity: quantity, MRP: mrp, TotalMRP: totalmrp, SalesID: salesid, Aquantity: aquantity };
+                            $.ajax({
+
+                                url: "/Sales/AddSalesDetails",
+                                type: "POST",
+                                data: JsonRequestData,
+
+                                success: function (message) {
+                                  //  CheckNull();
+                                    alert(message);
+                                  //  ClearAllText();
+                                },
+                                error: function (err) {
+                                    alert(err);
+                                }
+                            });
+                        }
+
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+
+
+               
+            });
+            function ClearAllText()
+            {
+                $("#Customer").val("");
+                $("#Date").val("");
+                $("#LoyalityPoint").val("");
+                $("#ResultDetailsTable").val("");
+                $("#GrandTotal").val("");
+                $("#Discount").val("");
+                $("#DiscountAmount").val("");
+                $("#PayableAmount").val("");
+                $("#AbailableQuantity").val("");
+                $("#MRP").val("");
+                $("#Quantity").val("");
+                $('#ToTalMRP').val("");
+
+
+                
+            }
+
+            
+            
+        });
+    </script>
+
+
+
+
+}
+
+@*
+    </body>
+    </html>*@
+

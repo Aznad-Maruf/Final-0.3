@@ -1,0 +1,38 @@
+﻿
+<<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="color:black ;background-color:white">
+    <tr>
+        <th>Sl</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Reorder Level</th>
+        <th>Expired Date</th>
+        <th>Expired Quantity</th>
+        <th>Opening Balance</th>
+        <th>In</th>
+        <th>Out</th>
+        <th>Closing Balance</th>
+    </tr>
+    @{
+        var rep = ViewBag.stockDetails;
+    }
+    @{ int i = 1;}
+    @foreach (var p in rep)
+    {
+        <tr>
+            <td>@(++i)</td>
+            <td>@p.ProductCode</td>
+            <td>@p.ProductName</td>
+            <td>@p.CategoryName</td>
+            <td>@p.ReorderLevel</td>
+            <td>@p.ExpireDate</td>
+            <td>@p.OpeningBalance</td>
+            <td>@p.In </td>
+            <td>@p.Out</td>
+            <td>@p.closingBalance</td>
+
+
+        </tr>
+    }
+</table>
+

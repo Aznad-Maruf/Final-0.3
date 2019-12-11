@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5A1FFCEA-0DB4-45BB-BD0D-F9BE9F4769F9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CompileError.DatabaseContext</RootNamespace>
+    <AssemblyName>CompileError.DatabaseContext</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DatabaseContext\ProjectDbContext.cs" />
+    <Compile Include="Migrations\201912080954599_AddAll.cs" />
+    <Compile Include="Migrations\201912080954599_AddAll.Designer.cs">
+      <DependentUpon>201912080954599_AddAll.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912081237391_AddAll1.cs" />
+    <Compile Include="Migrations\201912081237391_AddAll1.Designer.cs">
+      <DependentUpon>201912081237391_AddAll1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912081648568_ChangeDateType.cs" />
+    <Compile Include="Migrations\201912081648568_ChangeDateType.Designer.cs">
+      <DependentUpon>201912081648568_ChangeDateType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912081842567_Changedatatype.cs" />
+    <Compile Include="Migrations\201912081842567_Changedatatype.Designer.cs">
+      <DependentUpon>201912081842567_Changedatatype.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912090256159_EdittablesalesdetailDatatype.cs" />
+    <Compile Include="Migrations\201912090256159_EdittablesalesdetailDatatype.Designer.cs">
+      <DependentUpon>201912090256159_EdittablesalesdetailDatatype.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912091905504_UpdateProducttable.cs" />
+    <Compile Include="Migrations\201912091905504_UpdateProducttable.Designer.cs">
+      <DependentUpon>201912091905504_UpdateProducttable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912091934243_AddSupplier.cs" />
+    <Compile Include="Migrations\201912091934243_AddSupplier.Designer.cs">
+      <DependentUpon>201912091934243_AddSupplier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912092010186_AddPurchaseAndDetails.cs" />
+    <Compile Include="Migrations\201912092010186_AddPurchaseAndDetails.Designer.cs">
+      <DependentUpon>201912092010186_AddPurchaseAndDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912092114326_ChangeColumnameForSalesdetails.cs" />
+    <Compile Include="Migrations\201912092114326_ChangeColumnameForSalesdetails.Designer.cs">
+      <DependentUpon>201912092114326_ChangeColumnameForSalesdetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912110444168_SomeModification.cs" />
+    <Compile Include="Migrations\201912110444168_SomeModification.Designer.cs">
+      <DependentUpon>201912110444168_SomeModification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CompileError.Model\CompileError.Model.csproj">
+      <Project>{2411f2c3-2841-4b25-9bba-09dd9e435201}</Project>
+      <Name>CompileError.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201912080954599_AddAll.resx">
+      <DependentUpon>201912080954599_AddAll.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912081237391_AddAll1.resx">
+      <DependentUpon>201912081237391_AddAll1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912081648568_ChangeDateType.resx">
+      <DependentUpon>201912081648568_ChangeDateType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912081842567_Changedatatype.resx">
+      <DependentUpon>201912081842567_Changedatatype.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912090256159_EdittablesalesdetailDatatype.resx">
+      <DependentUpon>201912090256159_EdittablesalesdetailDatatype.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912091905504_UpdateProducttable.resx">
+      <DependentUpon>201912091905504_UpdateProducttable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912091934243_AddSupplier.resx">
+      <DependentUpon>201912091934243_AddSupplier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912092010186_AddPurchaseAndDetails.resx">
+      <DependentUpon>201912092010186_AddPurchaseAndDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912092114326_ChangeColumnameForSalesdetails.resx">
+      <DependentUpon>201912092114326_ChangeColumnameForSalesdetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912110444168_SomeModification.resx">
+      <DependentUpon>201912110444168_SomeModification.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
